@@ -1,0 +1,41 @@
+.head {
+  text-align: center;
+}
+
+.head img {
+  max-height: 100px;
+  display: inline-block;
+}
+
+.head h2 {
+  font-weight: 200;
+  display: inline;
+  margin-left: 30px;
+}
+
+.head h2 strong {
+  font-weight: 700;
+}
+
+.masthead {
+  padding: 10px;
+  margin-bottom: 15px;
+  background-color: #d13732;
+  color: white;
+}
+
+.nav {
+  margin-bottom: 45px;
+}
+
+.select2-container .select2-selection--single {
+  height: 38px;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+  height: 36px;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+  line-height: 38px;
+}

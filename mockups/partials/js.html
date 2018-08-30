@@ -22,6 +22,25 @@ $(document).ready(function() {
   $('#900number').on('select2:select', function (e) {
     $('.tic').select2().val(e.params.data.text).trigger("change");
   });
+
+  $('.preceptor').select2();
+  $('.preceptor').select2({
+    placeholder: 'Preceptor',
+    allowClear: true
+  });
+  $('#preceptor').on('select2:select', function (e) {
+    $('.preceptor900number').select2().val(e.params.data.text).trigger("change");
+  });
+
+
+  $('.preceptor900number').select2();
+  $('.preceptor900number').select2({
+    placeholder: '900',
+    allowClear: true
+  });
+  $('#preceptor900number').on('select2:select', function (e) {
+    $('.preceptor').select2().val(e.params.data.text).trigger("change");
+  });
 });
 
 </script>

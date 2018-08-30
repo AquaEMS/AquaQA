@@ -11,6 +11,14 @@
   font-weight: 200;
   display: inline;
   margin-left: 30px;
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .head h2 {
+    font-size: 16px;
+    margin-left: 0;
+  }
 }
 
 .head h2 strong {
@@ -24,8 +32,44 @@
   color: white;
 }
 
+.masthead .row {
+  margin-left: 0;
+  margin-right: 0;
+}
+
 .nav {
   margin-bottom: 45px;
+}
+
+.question {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.btn-secondary:not(:disabled):not(.disabled).active, .btn-secondary:not(:disabled):not(.disabled):active, .show > .btn-secondary.dropdown-toggle {
+  background-color: #2188ef;
+  border-color: #3670a2;
+}
+
+label {
+  display: block;
+}
+
+.question-number {
+  font-size: 18px;
+  text-align: right;
+}
+
+@media (max-width: 768px) {
+  .question-text {
+    margin-left: -10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .no-preceptor label {
+    display: none;
+  }
 }
 
 .select2-container .select2-selection--single {

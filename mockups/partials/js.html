@@ -4,43 +4,52 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
-  $('.tic').select2();
-  $('.tic').select2({
-    placeholder: 'Tech-in-charge',
+  $(".tic").select2();
+  $(".tic").select2({
+    placeholder: "Tech-in-charge",
     allowClear: true
   });
-  $('#tic').on('select2:select', function (e) {
-    $('.900number').select2().val(e.params.data.text).trigger("change");
+  $("#tic").on("select2:select", function (e) {
+    $(".900number").select2().val(e.params.data.text).trigger("change");
   });
 
 
-  $('.900number').select2();
-  $('.900number').select2({
-    placeholder: '900',
+  $(".900number").select2();
+  $(".900number").select2({
+    placeholder: "900",
     allowClear: true
   });
-  $('#900number').on('select2:select', function (e) {
-    $('.tic').select2().val(e.params.data.text).trigger("change");
+  $("#900number").on("select2:select", function (e) {
+    $(".tic").select2().val(e.params.data.text).trigger("change");
   });
 
-  $('.preceptor').select2();
-  $('.preceptor').select2({
-    placeholder: 'Preceptor',
+  $(".preceptor").select2();
+  $(".preceptor").select2({
+    placeholder: "Preceptor",
     allowClear: true
   });
-  $('#preceptor').on('select2:select', function (e) {
-    $('.preceptor900number').select2().val(e.params.data.text).trigger("change");
+  $("#preceptor").on("select2:select", function (e) {
+    $(".preceptor900number").select2().val(e.params.data.text).trigger("change");
+    $("#no_preceptor").prop("disabled", false);
   });
 
 
-  $('.preceptor900number').select2();
-  $('.preceptor900number').select2({
-    placeholder: '900',
+  $(".preceptor900number").select2();
+  $(".preceptor900number").select2({
+    placeholder: "900",
     allowClear: true
   });
-  $('#preceptor900number').on('select2:select', function (e) {
-    $('.preceptor').select2().val(e.params.data.text).trigger("change");
+  $("#preceptor900number").on("select2:select", function (e) {
+    $(".preceptor").select2().val(e.params.data.text).trigger("change");
+    $("#no_preceptor").prop("disabled", false);
   });
+});
+
+
+$("#no_preceptor").on("click", function () {
+  $(".preceptor900number").select2().val("").trigger("change");
+  $(".preceptor").select2().val("").trigger("change");
+  $("#no_preceptor").prop("disabled", true);
 });
 
 </script>

@@ -10,6 +10,11 @@
     font-weight: 200;
     display: inline;
     margin-left: 30px;
+    white-space: nowrap;
+    @media (max-width: 768px) {
+      font-size: 16px;
+      margin-left: 0;
+    }
 
     strong {
       font-weight: 700;
@@ -22,12 +27,53 @@
   margin-bottom: 15px;
   background-color: rgb(209,55,50);
   color: white;
+
+  .row {
+    margin-left: 0;
+    margin-right: 0;
+  }
 }
 
 .nav {
   margin-bottom: 45px;
 }
 
+.question {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.btn-secondary:not(:disabled):not(.disabled).active, .btn-secondary:not(:disabled):not(.disabled):active, .show>.btn-secondary.dropdown-toggle {
+  background-color: #2188ef;
+  border-color: #3670a2;
+}
+
+label {
+  display: block;
+}
+
+.question-number {
+  font-size: 18px;
+  text-align: right;
+}
+
+.question-text {
+  @media (max-width: 768px) {
+    margin-left: -10px;
+  }
+}
+
+.no-preceptor label {
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
+
+
+
+
+
+//Select2 styles follow...
 .select2-container .select2-selection--single {
   height: 38px;
 }

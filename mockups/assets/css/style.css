@@ -72,6 +72,17 @@ label {
   }
 }
 
+.form-error {
+  font-size: 12px;
+  text-align: left;
+}
+
+footer .row {
+  background-color: #d13732;
+  color: white;
+  margin-top: 30px;
+}
+
 .select2-container .select2-selection--single {
   height: 38px;
 }

@@ -3,45 +3,45 @@
 <body>
   <?php require 'partials/header.html' ?>
 
-  <form autocomplete="off">
+  <form autocomplete="off" novalidate>
     <div class="container">
       <h4>Call information</h4>
       <div class="row">
         <div class="form-group col-md-3">
           <label for="date">Call date</label>
-          <input type="date" class="form-control" id="date">
+          <input type="date" class="form-control" id="date" data-validation="required">
         </div>
         <div class="form-group col-md-2">
           <label for="prid">PRID</label>
-          <input type="text" pattern="^[0-9]{8}$" class="form-control" id="prid" title="A PRID must be exactly 8 numbers long.">
+          <input type="text" class="form-control" id="prid" placeholder="PRID" data-validation="length" data-validation-length="8" data-validation-error-msg="PRID must be exactly 8 numbers long.">
         </div>
         <div class="form-group col-md-4">
           <label for="presenting_problem">Presenting problem</label>
-          <input type="text" name="presenting_problem" class="form-control" id="presenting_problem" placeholder="Presenting problem">
+          <input type="text" name="presenting_problem" class="form-control" id="presenting_problem" placeholder="Presenting problem" data-validation="required">
         </div>
-        <div class="form-group col-md-3">
+        <div class="form-group col-md-3 text-center">
           <label>&nbsp;</label>
-          <div class="btn-group btn-group-toggle" data-toggle="buttons">
+          <div class="btn-group btn-group-toggle" data-toggle="buttons" id="determinants">
             <label class="btn btn-secondary">
-              <input type="radio" name="options" id="determinantA" autocomplete="off"> A
+              <input type="radio" name="determinant" id="determinantA" value="A" autocomplete="off" required> A
             </label>
             <label class="btn btn-secondary">
-              <input type="radio" name="options" id="determinantB" autocomplete="off"> B
+              <input type="radio" name="determinant" id="determinantB" value="B" autocomplete="off"> B
             </label>
             <label class="btn btn-secondary">
-              <input type="radio" name="options" id="determinantC" autocomplete="off"> C
+              <input type="radio" name="determinant" id="determinantC" value="C" autocomplete="off"> C
             </label>
             <label class="btn btn-secondary">
-              <input type="radio" name="options" id="determinantD" autocomplete="off"> D
+              <input type="radio" name="determinant" id="determinantD" value="D" autocomplete="off"> D
             </label>
             <label class="btn btn-secondary">
-              <input type="radio" name="options" id="determinantE" autocomplete="off"> E
+              <input type="radio" name="determinant" id="determinantE" value="E" autocomplete="off"> E
             </label>
             <label class="btn btn-secondary">
-              <input type="radio" name="options" id="determinantFI" autocomplete="off"> F/I
+              <input type="radio" name="determinant" id="determinantFI" value="FI" autocomplete="off"> F/I
             </label>
             <label class="btn btn-secondary">
-              <input type="radio" name="options" id="determinantS" autocomplete="off"> S
+              <input type="radio" name="determinant" id="determinantS" value="S" autocomplete="off"> S
             </label>
           </div>
         </div>
@@ -51,7 +51,7 @@
       <div class="row">
         <div class="form-group col-md-3">
           <label for="tic">Tech-in-charge</label>
-          <select class="form-control tic" name="tic" id="tic" placeholder="Tech-in-charge">
+          <select class="form-control tic" name="tic" id="tic" placeholder="Tech-in-charge" data-validation="required">
             <option></option>
             <option value="987">Dan Bruce</option>
             <option value="923">John Jacangelo</option>
@@ -59,7 +59,7 @@
         </div>
         <div class="form-group col-md-2">
           <label for="900number">900 number</label>
-          <select class="form-control 900number" name="900number" id="900number" placeholder="900 number">
+          <select class="form-control 900number" name="900number" id="900number" placeholder="900 number" data-validation="required">
             <option></option>
             <option value="Dan Bruce">987</option>
             <option value="John Jacangelo">923</option>
@@ -81,7 +81,7 @@
             <option value="John Jacangelo">923</option>
           </select>
         </div>
-        <div class="col-md-2 no-preceptor">
+        <div class="col-md-2 no-preceptor text-center">
           <label>&nbsp;</label>
           <button type="button" class="btn btn-secondary" id="no_preceptor" disabled>No preceptor</button>
         </div>
@@ -265,8 +265,36 @@
           </div>
         </div>
       </div>
+      <hr>
+      <h4>Review</h4>
+      <div class="row review">
+        <div class="col-md-7 form-group">
+          <label for="comments">Comments</label>
+          <textarea class="form-control" id="comments" rows="2"></textarea>
+        </div>
+        <div class="col col-md-3 text-center">
+          <div class="row">
+            <div class="col-sm-12 form-group">
+              <label for="flagged">Flagged for review</label>
+              <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-secondary btn-lg">
+                  <input type="radio" name="options" id="flagged" autocomplete="off"> Yes
+                </label>
+                <label class="btn btn-secondary btn-lg">
+                  <input type="radio" name="options" id="flagged" autocomplete="off"> No
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col col-md-2 form-group text-center">
+          <label>&nbsp;</label>
+          <button type="submit" class="btn btn-success btn-lg" id="submit">Submit</button>
+        </div>
+      </div>
     </div>
   </form>
+  <?php require 'partials/footer.html' ?>
   <?php require 'partials/js.html' ?>
 </body>
 </html>

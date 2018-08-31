@@ -1,3 +1,5 @@
+$rpia-red: rgb(209,55,50);
+
 .head {
   text-align: center;
 
@@ -25,7 +27,7 @@
 .masthead {
   padding: 10px;
   margin-bottom: 15px;
-  background-color: rgb(209,55,50);
+  background-color: $rpia-red;
   color: white;
 
   .row {
@@ -69,8 +71,16 @@ label {
   }
 }
 
+.form-error {
+  font-size: 12px;
+  text-align: left;
+}
 
-
+footer .row {
+  background-color: $rpia-red;
+  color: white;
+  margin-top: 30px;
+}
 
 
 //Select2 styles follow...

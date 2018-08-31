@@ -60,10 +60,13 @@ $("form").submit(function(e) {
   $("#determinants > label").each( function() {
    if ($(this).hasClass("active")) {set = true;}
   });
-  if (!set) {
+  if (!set && !($("#determinants").parent().children(".help-block").length)) {
     $("#determinants").parent().append('<span class="help-block form-error">This is a required field</span>');
+    $("#determinants").children("label").addClass("determinants-error");
   } else {
     $("#determinants").parent().children(".help-block").remove();
+    $("#determinants").children("label").removeClass("determinants-error");
+
   }
 });
 

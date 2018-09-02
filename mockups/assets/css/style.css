@@ -93,6 +93,14 @@ footer .row {
   margin-top: 30px;
 }
 
+.admin-questions #questionheader {
+  width: 500px;
+}
+
+.admin-questions input[type="number"] {
+  width: 50px;
+}
+
 .select2-container .select2-selection--single {
   height: 38px;
 }

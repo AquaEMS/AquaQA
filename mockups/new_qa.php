@@ -296,5 +296,6 @@
   </form>
   <?php require 'partials/footer.html' ?>
   <?php require 'partials/js.html' ?>
+  <?php require 'partials/js_new_qa.html' ?>
 </body>
 </html>

@@ -89,6 +89,17 @@ footer .row {
   margin-top: 30px;
 }
 
+.admin-questions  {
+
+  #questionheader {
+    width: 500px;
+  }
+
+  input[type="number"] {
+    width: 50px;
+  }
+}
+
 
 //Select2 styles follow...
 .select2-container .select2-selection--single {

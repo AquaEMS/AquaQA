@@ -1,0 +1,19 @@
+{
+  "name": "aqua",
+  "version": "0.0.1",
+  "description": "An online QA platform for EMS agencies",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rpiambulance/aqua.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rpiambulance/aqua/issues"
+  },
+  "homepage": "https://github.com/rpiambulance/aqua#readme"
+}

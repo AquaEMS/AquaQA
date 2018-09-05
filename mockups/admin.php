@@ -115,6 +115,7 @@
               </td>
               <td>
                 <button type="button" class="btn btn-secondary" name="button">Edit text</button>
+                <button type="button" class="btn btn-secondary" name="button">Edit info text</button>
                 <button type="button" class="btn btn-secondary" name="button">Delete</button>
               </td>
             </tr>
@@ -130,6 +131,7 @@
               </td>
               <td>
                 <button type="button" class="btn btn-secondary" name="button">Edit text</button>
+                <button type="button" class="btn btn-secondary" name="button">Edit info text</button>
                 <button type="button" class="btn btn-secondary" name="button">Delete</button>
               </td>
             </tr>
@@ -145,6 +147,7 @@
               </td>
               <td>
                 <button type="button" class="btn btn-secondary" name="button">Edit text</button>
+                <button type="button" class="btn btn-secondary" name="button">Edit info text</button>
                 <button type="button" class="btn btn-secondary" name="button">Delete</button>
               </td>
             </tr>

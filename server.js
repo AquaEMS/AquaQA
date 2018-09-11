@@ -45,7 +45,7 @@ app.get(['/api/:table/:token', '/api/:table'], function(req, res) {
 
 app.post('/api/newqa/', jsonParser, function(req, res) {
   connection.query("INSERT INTO `qas` SET ?", req.body[0], function(error, results, field) {
-    if (error) throw error;
+    if (error) throw error; // TODO: add seesion check
     for (var x = 0; x < req.body[1].questions.length; x++) {
       req.body[1].questions[x].qa_id = results.insertId;
       connection.query("INSERT INTO `qasQuestions` SET ?", req.body[1].questions[x], function(error, results, field) {

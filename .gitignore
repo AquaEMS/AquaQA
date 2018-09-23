@@ -1,3 +1,34 @@
 .DS_Store
 package-lock.json
 node_modules/
+
+angular/dist
+angular/tmp
+angular/out-tsc
+
+# dependencies
+angular/node_modules
+
+# IDEs and editors
+angular/.idea
+angular/.project
+angular/.classpath
+angular/.c9/
+angular/*.launch
+angular/.settings/
+angular/*.sublime-workspace
+
+
+# misc
+angular/.sass-cache
+angular/connect.lock
+angular/coverage
+angular/libpeerconnection.log
+angular/npm-debug.log
+angular/yarn-error.log
+angular/testem.log
+angular/typings
+
+# System Files
+angular/.DS_Store
+angular/Thumbs.db

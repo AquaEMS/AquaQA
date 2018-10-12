@@ -4,39 +4,39 @@
       <div class="row">
         <div class="form-group col-md-3">
           <label for="date">Call date</label>
-          <input type="date" class="form-control" id="date" data-validation="required">
+          <input type="date" class="form-control" [(ngModel)]="qa.date" name="qaDate" id="date">
         </div>
         <div class="form-group col-md-2">
           <label for="prid">PRID</label>
-          <input type="text" class="form-control" id="prid" placeholder="PRID" data-validation="length" data-validation-length="8" data-validation-error-msg="PRID must be exactly 8 numbers long.">
+          <input type="text" class="form-control" [(ngModel)]="qa.prid" name="qaPrid" id="prid" placeholder="PRID" data-validation="length" data-validation-length="8" data-validation-error-msg="PRID must be exactly 8 numbers long.">
         </div>
         <div class="form-group col-md-4">
           <label for="presenting_problem">Presenting problem</label>
-          <input type="text" name="presenting_problem" class="form-control" id="presenting_problem" placeholder="Presenting problem" data-validation="required">
+          <input type="text" name="presenting_problem" [(ngModel)]="qa.problem" name="qaProblem" class="form-control" id="presenting_problem" placeholder="Presenting problem" data-validation="required">
         </div>
         <div class="form-group col-md-3 text-center">
           <label>&nbsp;</label>
-          <div class="btn-group btn-group-toggle" data-toggle="buttons" id="determinants">
-            <label class="btn btn-secondary">
-              <input type="radio" name="determinant" id="determinantA" value="A" autocomplete="off" required> A
+          <div class="btn-group btn-group-toggle" name="determinant"  id="determinants">
+            <label class="btn btn-secondary" [ngClass]="{'active': isActive-A}">
+              <input type="radio" [(ngModel)]="qa.determinant" name="determinant" id="determinantA" (click)="activateButton($event)" value="A" autocomplete="off" required> A
             </label>
             <label class="btn btn-secondary">
-              <input type="radio" name="determinant" id="determinantB" value="B" autocomplete="off"> B
+              <input type="radio" [(ngModel)]="qa.determinant" name="determinant" id="determinantB" [ngClass]="{'active': isActive}" (click)="activateButton()" value="B" autocomplete="off"> B
             </label>
             <label class="btn btn-secondary">
-              <input type="radio" name="determinant" id="determinantC" value="C" autocomplete="off"> C
+              <input type="radio" [(ngModel)]="qa.determinant" name="determinant" id="determinantC" [ngClass]="{'active': isActive}" (click)="activateButton()" value="C" autocomplete="off"> C
             </label>
             <label class="btn btn-secondary">
-              <input type="radio" name="determinant" id="determinantD" value="D" autocomplete="off"> D
+              <input type="radio" [(ngModel)]="qa.determinant" name="determinant" id="determinantD" [ngClass]="{'active': isActive}" (click)="activateButton()" value="D" autocomplete="off"> D
             </label>
             <label class="btn btn-secondary">
-              <input type="radio" name="determinant" id="determinantE" value="E" autocomplete="off"> E
+              <input type="radio" [(ngModel)]="qa.determinant" name="determinant" id="determinantE" [ngClass]="{'active': isActive}" (click)="activateButton()" value="E" autocomplete="off"> E
             </label>
             <label class="btn btn-secondary">
-              <input type="radio" name="determinant" id="determinantFI" value="FI" autocomplete="off"> F/I
+              <input type="radio" [(ngModel)]="qa.determinant" name="determinant" id="determinantFI" [ngClass]="{'active': isActive}" (click)="activateButton()" value="FI" autocomplete="off"> F/I
             </label>
             <label class="btn btn-secondary">
-              <input type="radio" name="determinant" id="determinantS" value="S" autocomplete="off"> S
+              <input type="radio" [(ngModel)]="qa.determinant" name="determinant" id="determinantS" [ngClass]="{'active': isActive}" (click)="activateButton()" value="S" autocomplete="off"> S
             </label>
           </div>
         </div>
@@ -46,7 +46,7 @@
       <div class="row">
         <div class="form-group col-md-3">
           <label for="tic">Tech-in-charge</label>
-          <select class="form-control tic" name="tic" id="tic" placeholder="Tech-in-charge" data-validation="required">
+          <select class="form-control tic" [(ngModel)]="qa.tic" name="tic" id="tic" placeholder="Tech-in-charge" data-validation="required">
             <option></option>
             <option value="987">Dan Bruce</option>
             <option value="923">John Jacangelo</option>
@@ -54,7 +54,7 @@
         </div>
         <div class="form-group col-md-2">
           <label for="900number">900 number</label>
-          <select class="form-control 900number" name="900number" id="900number" placeholder="900 number" data-validation="required">
+          <select class="form-control 900number" [(ngModel)]="qa.ticnine" name="tic900" id="900number" placeholder="900 number" data-validation="required">
             <option></option>
             <option value="Dan Bruce">987</option>
             <option value="John Jacangelo">923</option>
@@ -62,7 +62,7 @@
         </div>
         <div class="form-group col-md-3">
           <label for="preceptor">Preceptor</label>
-          <select class="form-control preceptor" name="preceptor" id="preceptor" placeholder="Preceptor">
+          <select class="form-control preceptor" [(ngModel)]="qa.preceptor" name="preceptor" id="preceptor" placeholder="Preceptor">
             <option></option>
             <option value="987">Dan Bruce</option>
             <option value="923">John Jacangelo</option>
@@ -70,7 +70,7 @@
         </div>
         <div class="form-group col-md-2">
           <label for="preceptor900number">900 number</label>
-          <select class="form-control preceptor900number" name="preceptor900number" id="preceptor900number" placeholder="900 number">
+          <select class="form-control preceptor900number" [(ngModel)]="qa.precnine" name="preceptor900number" id="preceptor900number" placeholder="900 number">
             <option></option>
             <option value="Dan Bruce">987</option>
             <option value="John Jacangelo">923</option>
@@ -78,7 +78,7 @@
         </div>
         <div class="col-md-2 no-preceptor text-center">
           <label>&nbsp;</label>
-          <button type="button" class="btn btn-secondary" id="no_preceptor" disabled>No preceptor</button>
+          <input type="check" [(ngModel)]="qa.noPrec" name="qaNoPrec" class="btn btn-secondary" id="no_preceptor" disabled>No preceptor
         </div>
       </div>
       <hr>
@@ -97,10 +97,10 @@
             <div class="col-sm-2 col-4 question-answer">
               <div class="btn-group btn-group-toggle" data-toggle="buttons">
                 <label class="btn btn-secondary">
-                  <input type="radio" name="options" id="Y1" autocomplete="off"> Y
+                  <input type="radio" [(ngModel)]="qa.yn1" [value]="yes" name="q1y" id="Y1" autocomplete="off"> Y
                 </label>
                 <label class="btn btn-secondary">
-                  <input type="radio" name="options" id="N1" autocomplete="off"> N
+                  <input type="radio" [(ngModel)]="qa.yn1" [value]="no" name="q1n" id="N1" autocomplete="off"> N
                 </label>
               </div>
             </div>
@@ -117,10 +117,10 @@
             <div class="col-sm-2 col-4 question-answer">
               <div class="btn-group btn-group-toggle" data-toggle="buttons">
                 <label class="btn btn-secondary">
-                  <input type="radio" name="options" id="Y2" autocomplete="off"> Y
+                  <input type="radio" [(ngModel)]="qa.yn2" [value]="yes" name="q2y" id="Y2" autocomplete="off"> Y
                 </label>
                 <label class="btn btn-secondary">
-                  <input type="radio" name="options" id="N2" autocomplete="off"> N
+                  <input type="radio" [(ngModel)]="qa.yn2" [value]="no" name="q2n" id="N2" autocomplete="off"> N
                 </label>
               </div>
             </div>
@@ -137,13 +137,13 @@
             <div class="col-sm-2 col-4 question-answer">
               <div class="btn-group btn-group-toggle" data-toggle="buttons">
                 <label class="btn btn-secondary">
-                  <input type="radio" name="options" id="Y3" autocomplete="off"> Y
+                  <input type="radio" [(ngModel)]="qa.yn3" [value]="yes" name="q3y" id="Y3" autocomplete="off"> Y
                 </label>
                 <label class="btn btn-secondary">
-                  <input type="radio" name="options" id="N3" autocomplete="off"> N
+                  <input type="radio" [(ngModel)]="qa.yn3" [value]="no" name="q3n" id="N3" autocomplete="off"> N
                 </label>
                 <label class="btn btn-secondary">
-                  <input type="radio" name="options" id="NA3" autocomplete="off"> N/A
+                  <input type="radio" [(ngModel)]="qa.yn3" [value]="na" name="q3na" id="NA3" autocomplete="off"> N/A
                 </label>
               </div>
             </div>
@@ -160,10 +160,10 @@
             <div class="col-sm-2 col-4 question-answer">
               <div class="btn-group btn-group-toggle" data-toggle="buttons">
                 <label class="btn btn-secondary">
-                  <input type="radio" name="options" id="Y4" autocomplete="off"> Y
+                  <input type="radio" [(ngModel)]="qa.yn4" [value]="yes" name="q4y" id="Y4" autocomplete="off"> Y
                 </label>
                 <label class="btn btn-secondary">
-                  <input type="radio" name="options" id="N4" autocomplete="off"> N
+                  <input type="radio" [(ngModel)]="qa.yn4" [value]="no" name="q4n" id="N4" autocomplete="off"> N
                 </label>
               </div>
             </div>
@@ -185,10 +185,10 @@
             <div class="col-sm-2 col-4 question-answer">
               <div class="btn-group btn-group-toggle" data-toggle="buttons">
                 <label class="btn btn-secondary">
-                  <input type="radio" name="options" id="Y5" autocomplete="off"> Y
+                  <input  type="radio" [(ngModel)]="qa.yn5" [value]="yes" name="q5y" id="Y5" autocomplete="off"> Y
                 </label>
                 <label class="btn btn-secondary">
-                  <input type="radio" name="options" id="N5" autocomplete="off"> N
+                  <input type="radio" [(ngModel)]="qa.yn5" [value]="no" name="q5n" id="N5" autocomplete="off"> N
                 </label>
               </div>
             </div>
@@ -205,10 +205,10 @@
             <div class="col-sm-2 col-4 question-answer">
               <div class="btn-group btn-group-toggle" data-toggle="buttons">
                 <label class="btn btn-secondary">
-                  <input type="radio" name="options" id="Y6" autocomplete="off"> Y
+                  <input type="radio" [(ngModel)]="qa.yn6" [value]="yes" name="q6y" id="Y6" autocomplete="off"> Y
                 </label>
                 <label class="btn btn-secondary">
-                  <input type="radio" name="options" id="N6" autocomplete="off"> N
+                  <input type="radio" [(ngModel)]="qa.yn6" [value]="no" name="q6n" id="N6" autocomplete="off"> N
                 </label>
               </div>
             </div>
@@ -230,10 +230,10 @@
             <div class="col-sm-2 col-4 question-answer">
               <div class="btn-group btn-group-toggle" data-toggle="buttons">
                 <label class="btn btn-secondary">
-                  <input type="radio" name="options" id="Y7" autocomplete="off"> Y
+                  <input type="radio" [(ngModel)]="qa.yn7" [value]="yes" name="q7y" id="Y7" autocomplete="off"> Y
                 </label>
                 <label class="btn btn-secondary">
-                  <input type="radio" name="options" id="N7" autocomplete="off"> N
+                  <input type="radio" [(ngModel)]="qa.yn7" [value]="no" name="q7n" id="N7" autocomplete="off"> N
                 </label>
               </div>
             </div>
@@ -250,10 +250,10 @@
             <div class="col-sm-2 col-4 question-answer">
               <div class="btn-group btn-group-toggle" data-toggle="buttons">
                 <label class="btn btn-secondary">
-                  <input type="radio" name="options" id="Y8" autocomplete="off"> Y
+                  <input type="radio" [(ngModel)]="qa.yn8" [value]="yes" name="q8y" id="Y8" autocomplete="off"> Y
                 </label>
                 <label class="btn btn-secondary">
-                  <input type="radio" name="options" id="N8" autocomplete="off"> N
+                  <input type="radio" [(ngModel)]="qa.yn8" [value]="no" name="q8n" id="N8" autocomplete="off"> N
                 </label>
               </div>
             </div>
@@ -273,10 +273,10 @@
               <label for="flagged">Flagged for review</label>
               <div class="btn-group btn-group-toggle" data-toggle="buttons">
                 <label class="btn btn-secondary btn-lg">
-                  <input type="radio" name="options" id="flagged" autocomplete="off"> Yes
+                  <input type="radio" [(ngModel)]="qa.flagged" [value]="yes" name="flaggedy" id="flagged" autocomplete="off"> Yes
                 </label>
                 <label class="btn btn-secondary btn-lg">
-                  <input type="radio" name="options" id="flagged" autocomplete="off"> No
+                  <input type="radio" [(ngModel)]="qa.flagged" [value]="no" name="flaggedn" id="flagged" autocomplete="off"> No
                 </label>
               </div>
             </div>
@@ -284,7 +284,7 @@
         </div>
         <div class="col col-md-2 form-group text-center">
           <label>&nbsp;</label>
-          <button type="submit" class="btn btn-success btn-lg" id="submit">Submit</button>
+          <button type="submit" class="btn btn-success btn-lg" (click)="sendQA()" id="submit">Submit</button>
         </div>
       </div>
     </div>

@@ -32,3 +32,6 @@ angular/typings
 # System Files
 angular/.DS_Store
 angular/Thumbs.db
+
+# Security Risks
+./server_conf.js

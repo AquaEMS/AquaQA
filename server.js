@@ -1,17 +1,17 @@
 var express = require('express');
 var mysql = require('mysql');
 var bodyParser = require('body-parser');
-
+const config = require('./server_conf');
 
 var app = express();
 var jsonParser = bodyParser.json()
 
 
-var c = mysql.createConnection({
-  socket: '/tmp/mysql.sock',
-  user: 'aqua',
-  password: 'testpassword1',
-  database: 'aqua'
+var connection = mysql.createConnection({
+  socket: config.db_socket,
+  user: config.db_user,
+  password: config.db_password,
+  database: config.db_database
 });
 
 connection.connect(function(err) {

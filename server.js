@@ -45,8 +45,33 @@ app.listen(3000, function() {
 //   }
 // });
 
+function isAdmin(session_id) {
+  c.query("SELECT admin FROM users WHERE user_id IN (SELECT user_id FROM sessions WHERE session_id = ?", [session_id], function(error, results, fields) {
+    if (error) throw error;
+    return (results[0].admin == 1);
+  })
+}
+
+function isAdmin(session_id) {
+  c.query("SELECT qa FROM users WHERE user_id IN (SELECT user_id FROM sessions WHERE session_id = ?", [session_id], function(error, results, fields) {
+    if (error) throw error;
+    return (results[0].qa == 1);
+  })
+}
+
+function getUserId(session_id) {
+  c.query("SELECT user_id FROM sessions WHERE session_id = ?", [session_id], function(error, results, fields) {
+    if (error) throw error;
+    if (results.length != 1) return -1;
+    return results[0].user_id;
+  })
+}
+
+
+
 app.get("/api/get/tics/:token", function(req, res) {
-  if (req.params.token != "y9QoBe1bTC") { // TODO: Change to seesion id
+  //if user isn't an admin or a qa person
+  if (!(isAdmin(req.params.token) || isQa(req.params.token))) {
     res.status(403).send();
   } else {
     c.query("SELECT user_id, first, last, 900 FROM users WHERE active = 1 ORDER BY 900", function(error, results, fields) {
@@ -61,7 +86,8 @@ app.get("/api/get/tics/:token", function(req, res) {
 })
 
 app.get("/api/get/preceptors/:token", function(req, res) {
-  if (req.params.token != "y9QoBe1bTC") { // TODO: Change to seesion id
+  //if user isn't an admin or a qa person
+  if (!(isAdmin(req.params.token) || isQa(req.params.token))) {
     res.status(403).send();
   } else {
     c.query("SELECT user_id, first, last, 900 FROM users WHERE preceptor = 1 AND active = 1 ORDER BY 900", function(error, results, fields) {
@@ -76,7 +102,8 @@ app.get("/api/get/preceptors/:token", function(req, res) {
 })
 
 app.get("/api/get/admins/:token", function(req, res) {
-  if (req.params.token != "y9QoBe1bTC") { // TODO: Change to seesion id
+  //if user isn't an admin
+  if (!isAdmin(req.params.token)) {
     res.status(403).send();
   } else {
     c.query("SELECT user_id, first, last FROM users WHERE admin = 1 ORDER BY last, first", function(error, results, fields) {
@@ -91,7 +118,8 @@ app.get("/api/get/admins/:token", function(req, res) {
 })
 
 app.get("/api/get/users/:token", function(req, res) {
-  if (req.params.token != "y9QoBe1bTC") { // TODO: Change to seesion id
+  //if user isn't an admin
+  if (!isAdmin(req.params.token)) {
     res.status(403).send();
   } else {
     c.query("SELECT user_id, 900, first, last FROM users ORDER BY 900", function(error, results, fields) {
@@ -106,7 +134,8 @@ app.get("/api/get/users/:token", function(req, res) {
 })
 
 app.get("/api/get/user/:user_id/:token", function(req, res) {
-  if (req.params.token != "y9QoBe1bTC") { // TODO: Change to seesion id
+  //if user isn't an admin or requesting info about themselves
+  if (!(isAdmin(req.params.token) || getUserId(req.params.token) == req.params.user_id)) {
     res.status(403).send();
   } else {
     c.query("SELECT * FROM users WHERE user_id = ?", [req.params.user_id], function(error, results, fields) {
@@ -121,8 +150,24 @@ app.get("/api/get/user/:user_id/:token", function(req, res) {
 })
 
 app.get("/api/get/qas/:token", function(req, res) {
-  if (req.params.token != "y9QoBe1bTC") { // TODO: Change to seesion id
+  let userId = getUserId(req.params.token);
+
+  //if user not logged in
+  if (userId) != -1) {
     res.status(403).send();
+
+    //if user isn't an admin or a qa person
+  } else if (!(isAdmin(req.params.token) || isQa(req.params.token))) {
+    c.query("SELECT qa_id, prid, date, tic, reviewer, reviewDate FROM qas WHERE tic = ? OR preceptor = ? ORDER BY prid, qa_id", [userId, userId], function(error, results, fields) {
+      if (error) { res.status(400).send(); throw error; }
+      if (results.length == 0) {
+        res.status(204).send();
+      } else {
+        res.status(201).send(results);
+      }
+    });
+
+    // if user is admin or qa person
   } else {
     c.query("SELECT qa_id, prid, date, tic, reviewer, reviewDate FROM qas ORDER BY prid, qa_id", function(error, results, fields) {
       if (error) { res.status(400).send(); throw error; }
@@ -179,6 +224,8 @@ app.get("/api/get/qa/:qa_id/questions/:token", function(req, res) {
     });
   }
 })
+
+
 
 app.post("/api/new/user", function(req, res) {
   c.query("INSERT INTO `user` SET ?", req.body[0], function(error, results, field) {

@@ -1,7 +1,10 @@
-var express = require('express');
-var mysql = require('mysql');
-var bodyParser = require('body-parser');
-const config = require('./server_conf');
+var express = require("express");
+var mysql = require("mysql");
+var bodyParser = require("body-parser");
+var cron = require("node-cron");
+var sendmail = require("sendmail")();
+
+const config = require("./server_conf");
 
 var app = express();
 var jsonParser = bodyParser.json()
@@ -16,34 +19,24 @@ var c = mysql.createConnection({
 
 c.connect(function(err) {
   if (err) {
-    console.error('error connecting: ' + err.stack);
+    console.error("error connecting: " + err.stack);
     return;
   }
 
-  console.log('MariaDB connected as id ' + c.threadId);
+  console.log("MariaDB connected as id " + c.threadId);
 });
 
 
 app.listen(3000, function() {
-  console.log('Aqua is running!');
+  console.log("Aqua is running!");
 });
 
-// app.get('/api/:table/:token', function(req, res) {
-//   if (req.params.token != "y9QoBe1bTC") { // TODO: Change to seesion id
-//     res.status(403).send();
-//   } else if (req.params.table == "users") {
-//     res.status(403).send();
-//   } else {
-//     c.query('SELECT * from `' + req.params.table + '`;', function(error, results, fields) {
-//       if (error) { res.status(400).send(); throw error; }
-//       if (results.length == 0) {
-//         res.status(204).send();
-//       } else {
-//         res.status(201).send(results);
-//       }
-//     });
-//   }
-// });
+cron.schedule("* 18 * * *", function() {
+  getDailySummary(function(data) {
+
+  });
+});
+
 
 function isAdmin(session_id) {
   c.query("SELECT admin FROM users WHERE user_id IN (SELECT user_id FROM sessions WHERE session_id = ?", [session_id], function(error, results, fields) {
@@ -67,6 +60,11 @@ function getUserId(session_id) {
   })
 }
 
+function getDailySummary(callback) {
+  c.query("SELECT prid, date, tic, preceptor, flagged FROM qas WHERE reviewDate BETWEEN (NOW() - INTERVAL 1 DAY) AND NOW()", function (error, results, fields) {
+    callback(results);
+  });
+}
 
 
 app.get("/api/get/tics/:token", function(req, res) {
@@ -225,8 +223,6 @@ app.get("/api/get/qa/:qa_id/questions/:token", function(req, res) {
   }
 })
 
-
-
 app.post("/api/new/user", function(req, res) {
   c.query("INSERT INTO `user` SET ?", req.body[0], function(error, results, field) {
     if (error) { res.status(400).send(); throw error; } // TODO: add session check
@@ -245,7 +241,7 @@ app.post("/api/new/category", function(req, res) {
   });
 })
 
-app.post('/api/new/qa', jsonParser, function(req, res) {
+app.post("/api/new/qa", jsonParser, function(req, res) {
   c.query("INSERT INTO `qas` SET ?", req.body[0], function(error, results, field) {
     if (error) { res.status(400).send(); throw error; } // TODO: add session check
     for (var x = 0; x < req.body[1].questions.length; x++) {

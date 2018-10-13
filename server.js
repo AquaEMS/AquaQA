@@ -7,20 +7,20 @@ var app = express();
 var jsonParser = bodyParser.json()
 
 
-var connection = mysql.createConnection({
+var c = mysql.createConnection({
   socket: config.db_socket,
   user: config.db_user,
   password: config.db_password,
   database: config.db_database
 });
 
-connection.connect(function(err) {
+c.connect(function(err) {
   if (err) {
     console.error('error connecting: ' + err.stack);
     return;
   }
 
-  console.log('MariaDB connected as id ' + connection.threadId);
+  console.log('MariaDB connected as id ' + c.threadId);
 });
 
 
@@ -153,7 +153,7 @@ app.get("/api/get/qas/:token", function(req, res) {
   let userId = getUserId(req.params.token);
 
   //if user not logged in
-  if (userId) != -1) {
+  if (userId != -1) {
     res.status(403).send();
 
     //if user isn't an admin or a qa person

@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing/app-routing.module';
@@ -11,6 +12,8 @@ import { FormsModule } from '@angular/forms';
 
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
+
+import { apiService } from './services/api.service';
 
 @NgModule({
   declarations: [
@@ -24,9 +27,10 @@ import { AngularFontAwesomeModule } from 'angular-font-awesome';
     AppRoutingModule,
     FormsModule,
     NgbModule,
+    HttpModule,
     AngularFontAwesomeModule
   ],
-  providers: [],
+  providers: [apiService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

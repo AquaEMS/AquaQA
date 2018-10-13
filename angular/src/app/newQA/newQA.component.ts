@@ -1,13 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { QA }    from '../qa';
-
+import { apiService } from "../services/api.service";
 
 @Component({
   selector: 'NewAQ',
   templateUrl: './newQA.component.html',
   styleUrls: ['./newQA.component.css']
 })
-export class NewQAComponent {
+
+export class NewQAComponent implements OnInit {
+
+  constructor(private api: apiService){};
+
   title = 'New QA';
   isActive = false;
   qa: object = {
@@ -38,6 +42,10 @@ export class NewQAComponent {
   public activateButton() {
     console.log("CLICKED!")
     this.isActive = true;
+  }
+
+  ngOnInit(){
+    this.api.getDeterminants();
   }
 
 }

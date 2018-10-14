@@ -1,10 +1,15 @@
 var express = require('express');
+var router = express.Router();
 var mysql = require('mysql');
 var bodyParser = require('body-parser');
 const config = require('./server_conf');
-
-var app = express();
 var jsonParser = bodyParser.json()
+
+
+/* GET home page. */
+router.get('/', function(req, res, next) {
+  res.send('Express RESTful API');
+});
 
 
 var c = mysql.createConnection({
@@ -23,12 +28,7 @@ c.connect(function(err) {
   console.log('MariaDB connected as id ' + c.threadId);
 });
 
-
-app.listen(3000, function() {
-  console.log('Aqua is running!');
-});
-
-// app.get('/api/:table/:token', function(req, res) {
+// router.get('/api/:table/:token', function(req, res) {
 //   if (req.params.token != "y9QoBe1bTC") { // TODO: Change to seesion id
 //     res.status(403).send();
 //   } else if (req.params.table == "users") {
@@ -69,7 +69,7 @@ function getUserId(session_id) {
 
 
 
-app.get("/api/get/tics/:token", function(req, res) {
+router.get("/api/get/tics/:token", function(req, res) {
   //if user isn't an admin or a qa person
   if (!(isAdmin(req.params.token) || isQa(req.params.token))) {
     res.status(403).send();
@@ -85,7 +85,7 @@ app.get("/api/get/tics/:token", function(req, res) {
   }
 })
 
-app.get("/api/get/preceptors/:token", function(req, res) {
+router.get("/api/get/preceptors/:token", function(req, res) {
   //if user isn't an admin or a qa person
   if (!(isAdmin(req.params.token) || isQa(req.params.token))) {
     res.status(403).send();
@@ -101,7 +101,7 @@ app.get("/api/get/preceptors/:token", function(req, res) {
   }
 })
 
-app.get("/api/get/admins/:token", function(req, res) {
+router.get("/api/get/admins/:token", function(req, res) {
   //if user isn't an admin
   if (!isAdmin(req.params.token)) {
     res.status(403).send();
@@ -117,7 +117,7 @@ app.get("/api/get/admins/:token", function(req, res) {
   }
 })
 
-app.get("/api/get/users/:token", function(req, res) {
+router.get("/api/get/users/:token", function(req, res) {
   //if user isn't an admin
   if (!isAdmin(req.params.token)) {
     res.status(403).send();
@@ -133,7 +133,7 @@ app.get("/api/get/users/:token", function(req, res) {
   }
 })
 
-app.get("/api/get/user/:user_id/:token", function(req, res) {
+router.get("/api/get/user/:user_id/:token", function(req, res) {
   //if user isn't an admin or requesting info about themselves
   if (!(isAdmin(req.params.token) || getUserId(req.params.token) == req.params.user_id)) {
     res.status(403).send();
@@ -149,7 +149,7 @@ app.get("/api/get/user/:user_id/:token", function(req, res) {
   }
 })
 
-app.get("/api/get/qas/:token", function(req, res) {
+router.get("/api/get/qas/:token", function(req, res) {
   let userId = getUserId(req.params.token);
 
   //if user not logged in
@@ -180,7 +180,8 @@ app.get("/api/get/qas/:token", function(req, res) {
   }
 })
 
-app.get("/api/get/determinants/:token", function(req, res) {
+router.get("/get/determinants/:token", function(req, res) {
+  console.log("GD");
   if (req.params.token != "y9QoBe1bTC") { // TODO: Change to seesion id
     res.status(403).send();
   } else {
@@ -195,7 +196,7 @@ app.get("/api/get/determinants/:token", function(req, res) {
   }
 })
 
-app.get("/api/get/qa/:qa_id/:token", function(req, res) {
+router.get("/api/get/qa/:qa_id/:token", function(req, res) {
   if (req.params.token != "y9QoBe1bTC") { // TODO: Change to seesion id
     res.status(403).send();
   } else {
@@ -210,7 +211,7 @@ app.get("/api/get/qa/:qa_id/:token", function(req, res) {
   }
 })
 
-app.get("/api/get/qa/:qa_id/questions/:token", function(req, res) {
+router.get("/api/get/qa/:qa_id/questions/:token", function(req, res) {
   if (req.params.token != "y9QoBe1bTC") { // TODO: Change to seesion id
     res.status(403).send();
   } else {
@@ -227,25 +228,25 @@ app.get("/api/get/qa/:qa_id/questions/:token", function(req, res) {
 
 
 
-app.post("/api/new/user", function(req, res) {
+router.post("/api/new/user", function(req, res) {
   c.query("INSERT INTO `user` SET ?", req.body[0], function(error, results, field) {
     if (error) { res.status(400).send(); throw error; } // TODO: add session check
   });
 })
 
-app.post("/api/new/question", function(req, res) {
+router.post("/api/new/question", function(req, res) {
   c.query("INSERT INTO `questions` SET ?", req.body[0], function(error, results, field) {
     if (error) { res.status(400).send(); throw error; } // TODO: add session check
   });
 })
 
-app.post("/api/new/category", function(req, res) {
+router.post("/api/new/category", function(req, res) {
   c.query("INSERT INTO `category` SET ?", req.body[0], function(error, results, field) {
     if (error) { res.status(400).send(); throw error; } // TODO: add session check
   });
 })
 
-app.post('/api/new/qa', jsonParser, function(req, res) {
+router.post('/api/new/qa', jsonParser, function(req, res) {
   c.query("INSERT INTO `qas` SET ?", req.body[0], function(error, results, field) {
     if (error) { res.status(400).send(); throw error; } // TODO: add session check
     for (var x = 0; x < req.body[1].questions.length; x++) {
@@ -257,3 +258,5 @@ app.post('/api/new/qa', jsonParser, function(req, res) {
     res.status(200).send(); // TODO: send confirmation
   });
 });
+
+module.exports = router;

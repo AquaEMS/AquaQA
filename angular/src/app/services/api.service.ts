@@ -15,11 +15,16 @@ import { Observable } from "rxjs";
 @Injectable()
   export class apiService {
 
-    private apiURL: string = "127.0.0.1:3000/api/";
+    private apiURL: string = "http://localhost:5939/api/";
     private token: string = "y9QoBe1bTC";
 
     constructor(private http: Http) {
       // this.options = new RequestOptions({ headers: this.headers });
+    }
+
+    private extractData(res: Response) {
+      let body = res.json();
+      return body;
     }
 
   private handleError(error: any): Promise<any> {
@@ -28,13 +33,9 @@ import { Observable } from "rxjs";
   }
 
     public getDeterminants(): Observable<any[]> {
-      console.log("GD")
-      return this.http.get(this.apiURL + 'get/determinants/' + this.token)
-      .map(res => {
-      console.log(res.json());
-      console.log("Things") ;
-      } )
-      .catch("ERROR");
+      let request = this.apiURL + 'get/determinants/' + this.token;
+      console.log(request);
+      return this.http.get(request).map(this.extractData);
     }
 
   }

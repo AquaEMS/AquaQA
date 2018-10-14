@@ -5,8 +5,8 @@ import { NewQAComponent } from '../newQA/newQA.component';
 
 
 const routes: Routes = [
-  { path: '', redirectTo: '/NewAQ', pathMatch: 'full' },
-  { path: 'NewAQ', component: NewQAComponent }
+  { path: '', redirectTo: '/NewQA', pathMatch: 'full' },
+  { path: 'NewQA', component: NewQAComponent }
 ];
 
 @NgModule({

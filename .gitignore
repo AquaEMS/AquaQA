@@ -34,4 +34,4 @@ angular/.DS_Store
 angular/Thumbs.db
 
 # Security Risks
-server_conf.js
+./angular/routes/server_conf.js

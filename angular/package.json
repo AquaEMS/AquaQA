@@ -2,13 +2,13 @@
   "name": "aqua",
   "version": "0.0.0",
   "scripts": {
-    "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e"
-  },
+  "ng": "ng",
+  "start": "ng build && nodemon ./bin/www",
+  "build": "ng build",
+  "test": "ng test",
+  "lint": "ng lint",
+  "e2e": "ng e2e"
+},
   "private": true,
   "dependencies": {
     "@angular/animations": "^6.1.10",
@@ -28,7 +28,13 @@
     "font-awesome": "^4.7.0",
     "rxjs": "^6.3.3",
     "rxjs-compat": "^6.3.3",
-    "zone.js": "^0.8.26"
+    "zone.js": "^0.8.26",
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "http-errors": "^1.7.1",
+    "morgan": "^1.9.1",
+    "mysql": "^2.16.0",
+    "serve-favicon": "^2.5.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.8.5",

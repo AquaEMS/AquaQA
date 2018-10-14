@@ -1,16 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { QA }    from '../qa';
 import { apiService } from "../services/api.service";
+import { Http } from '@angular/http';
+import 'rxjs/add/operator/map';
+
 
 @Component({
-  selector: 'NewAQ',
+  selector: 'NewQA',
   templateUrl: './newQA.component.html',
   styleUrls: ['./newQA.component.css']
 })
 
 export class NewQAComponent implements OnInit {
 
-  constructor(private api: apiService){};
+  private determinants: any;
+
+  constructor(private api: apiService, private http: Http){};
 
   title = 'New QA';
   isActive = false;
@@ -45,7 +50,11 @@ export class NewQAComponent implements OnInit {
   }
 
   ngOnInit(){
-    this.api.getDeterminants();
+    console.log("INIT")
+    this.api.getDeterminants().subscribe(
+      response => {
+        this.determinants = response;
+    });
   }
 
 }

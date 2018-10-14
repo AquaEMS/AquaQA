@@ -22,11 +22,11 @@
         </div>
         <div class="form-group col-md-3 text-center">
           <label>&nbsp;</label>
-          <div class="btn-group btn-group-toggle" ngbRadioGroup name="determinant" [(ngModel)]="determinant">
-            <label ngbButtonLabel class="btn-secondary">
-              <input ngbButton type="radio" [value]="0"> A
+          <div class="btn-group btn-group-toggle" ngbRadioGroup name="determinant" [(ngModel)]="qa.determinant">
+            <label ngbButtonLabel class="btn-secondary" *ngFor="let det of determinants">
+              <input ngbButton type="radio" [value]="det.determinant_id"> {{det.abbreviation}}
             </label>
-            <label ngbButtonLabel class="btn-secondary">
+            <!-- <label ngbButtonLabel class="btn-secondary">
               <input ngbButton type="radio" [value]="1"> B
             </label>
             <label ngbButtonLabel class="btn-secondary">
@@ -43,7 +43,7 @@
             </label>
             <label ngbButtonLabel class="btn-secondary">
               <input ngbButton type="radio" [value]="6"> Stby.
-            </label>
+            </label> -->
           </div>
         </div>
       </div>

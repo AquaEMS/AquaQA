@@ -14,6 +14,8 @@ import 'rxjs/add/operator/map';
 export class NewQAComponent implements OnInit {
 
   private determinants: any;
+  private preceptors: any;
+  private qs: any;
 
   constructor(private api: apiService, private http: Http){};
 
@@ -55,6 +57,16 @@ export class NewQAComponent implements OnInit {
       response => {
         this.determinants = response;
     });
+    this.api.getPreceptors().subscribe(
+      response => {
+        this.preceptors = response;
+        console.log(this.preceptors);
+      });
+    // this.api.getQuestions().subscribe(
+    //   response => {
+    //     this.qs = response;
+    //     console.log(this.qs);
+    //   });
   }
 
 }

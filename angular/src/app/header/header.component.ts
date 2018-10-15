@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { JwBootstrapSwitchNg2Module } from 'jw-bootstrap-switch-ng2';
+
 
 @Component({
   selector: 'header-component',

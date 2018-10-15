@@ -115,9 +115,9 @@ router.get("/api/get/admins/:token", function(req, res) {
 
 router.get("/api/get/users/:token", function(req, res) {
   //if user isn't an admin
-  if (!isAdmin(req.params.token)) {
-    res.status(403).send();
-  } else {
+  // if (!isAdmin(req.params.token)) {
+  //   res.status(403).send();
+  // } else {
     c.query("SELECT user_id, 900, first, last FROM users ORDER BY 900", function(error, results, fields) {
       if (error) { res.status(400).send(); throw error; }
       if (results.length == 0) {
@@ -126,7 +126,7 @@ router.get("/api/get/users/:token", function(req, res) {
         res.status(201).send(results);
       }
     });
-  }
+  //}
 })
 
 router.get("/api/get/user/:user_id/:token", function(req, res) {

@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { QA }    from '../qa';
 import { apiService } from "../services/api.service";
 import { Http } from '@angular/http';
-import 'rxjs/add/operator/map';
+// import 'rxjs/add/operator/map';
+import {NgbTypeahead} from '@ng-bootstrap/ng-bootstrap';
+import {Observable, Subject, merge} from 'rxjs';
+import {debounceTime, distinctUntilChanged, filter, map} from 'rxjs/operators';
 
 
 @Component({
@@ -16,6 +19,9 @@ export class NewQAComponent implements OnInit {
   private determinants: any;
   private preceptors: any;
   private qs: any;
+  private ccs: any;
+  private tics = ['Dan Bruce', 'David Sparkman', 'Ricky Rescue'];
+
 
   constructor(private api: apiService, private http: Http){};
 
@@ -26,10 +32,10 @@ export class NewQAComponent implements OnInit {
     prid: 0,
     problem: "",
     determinant: "NONE",
-    tic: "SELECT",
-    ticnine: "SELECT",
-    preceptor: "SELECT",
-    precnine: "SELECT",
+    tic: "",
+    ticnine: "",
+    preceptor: "",
+    precnine: "",
     noPrec: false,
     yn1: "",
     yn2: "",
@@ -41,6 +47,21 @@ export class NewQAComponent implements OnInit {
     yn8: "",
     flagged: ""
   };
+
+  @ViewChild('instance') instance: NgbTypeahead;
+  focus$ = new Subject<string>();
+  click$ = new Subject<string>();
+
+  search = (text$: Observable<string>) => {
+    const debouncedText$ = text$.pipe(debounceTime(200), distinctUntilChanged());
+    const clicksWithClosedPopup$ = this.click$.pipe(filter(() => !this.instance.isPopupOpen()));
+    const inputFocus$ = this.focus$;
+
+    return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$).pipe(
+      map(term => (term === '' ? this.tics
+        : this.tics.filter(v => v.toLowerCase().indexOf(term.toLowerCase()) > -1)).slice(0, 10))
+    );
+  }
 
   public sendQA(){
     console.log(this.qa);
@@ -62,6 +83,12 @@ export class NewQAComponent implements OnInit {
         this.preceptors = response;
         console.log(this.preceptors);
       });
+    this.api.getUsers().subscribe(
+      response => {
+        this.ccs = response;
+        console.log(this.ccs)
+      }
+    )
     // this.api.getQuestions().subscribe(
     //   response => {
     //     this.qs = response;

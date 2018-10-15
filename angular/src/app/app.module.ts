@@ -14,13 +14,17 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 
 import { apiService } from './services/api.service';
+import { SettingsComponent } from './settings/settings.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NewQAComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    SettingsComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,

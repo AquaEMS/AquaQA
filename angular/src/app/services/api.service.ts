@@ -48,7 +48,7 @@ export class apiService {
   }
 
   public getUsers(): Observable<any[]> {
-    let request = this.apiURL + '/get/users/' + this.token;
+    let request = this.apiURL + 'get/users/' + this.token;
     return this.http.get(request).map(this.extractData);
   }
 

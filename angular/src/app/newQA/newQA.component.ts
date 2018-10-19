@@ -63,6 +63,43 @@ export class NewQAComponent implements OnInit {
     );
   }
 
+/*
+
+[
+  {
+    "qa_id": null,
+    "prid": 12345678,
+    "date": "2018-09-01",
+    "description": "Traumatic injury",
+    "tic": 1,
+    "preceptor": null,
+    "determinant": 5,
+    "comments": "Some text here",
+    "reviewer": 2,
+    "flagged": 0,
+    "reviewDate": "2018-09-04 19:20"
+  },
+  {
+    "questions": [
+      {
+        "question_id": 1,
+        "response": 1
+      },
+      {
+        "question_id": 2,
+        "response": 0
+      },
+      {
+        "question_id": 3,
+        "response": 2
+      }
+    ]
+  }
+]
+
+*/
+
+
   public sendQA(){
     console.log(this.qa);
   }

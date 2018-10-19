@@ -177,7 +177,6 @@ router.get("/api/get/qas/:token", function(req, res) {
 })
 
 router.get("/get/determinants/:token", function(req, res) {
-  console.log("GD");
   if (req.params.token != "y9QoBe1bTC") { // TODO: Change to seesion id
     res.status(403).send();
   } else {

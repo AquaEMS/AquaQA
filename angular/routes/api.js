@@ -43,7 +43,7 @@ function isAdmin(session_id) {
   })
 }
 
-function isAdmin(session_id) {
+function isQa(session_id) {
   c.query("SELECT qa FROM users WHERE user_id IN (SELECT user_id FROM sessions WHERE session_id = ?", [session_id], function(error, results, fields) {
     if (error) throw error;
     return (results[0].qa == 1);
@@ -70,7 +70,7 @@ router.get("/api/get/tics/:token", function(req, res) {
   if (!(isAdmin(req.params.token) || isQa(req.params.token))) {
     res.status(403).send();
   } else {
-    c.query("SELECT user_id, first, last, 900 FROM users WHERE active = 1 ORDER BY 900", function(error, results, fields) {
+    c.query("SELECT user_id, first, last, ninehundred FROM users WHERE active = 1 ORDER BY ninehundred", function(error, results, fields) {
       if (error) { res.status(400).send(); throw error; }
       if (results.length == 0) {
         res.status(204).send();
@@ -86,7 +86,7 @@ router.get("/api/get/preceptors/:token", function(req, res) {
   if (!(isAdmin(req.params.token) || isQa(req.params.token))) {
     res.status(403).send();
   } else {
-    c.query("SELECT user_id, first, last, 900 FROM users WHERE preceptor = 1 AND active = 1 ORDER BY 900", function(error, results, fields) {
+    c.query("SELECT user_id, first, last, ninehundred FROM users WHERE preceptor = 1 AND active = 1 ORDER BY ninehundred", function(error, results, fields) {
       if (error) { res.status(400).send(); throw error; }
       if (results.length == 0) {
         res.status(204).send();
@@ -115,10 +115,10 @@ router.get("/api/get/admins/:token", function(req, res) {
 
 router.get("/api/get/users/:token", function(req, res) {
   //if user isn't an admin
-  // if (!isAdmin(req.params.token)) {
-  //   res.status(403).send();
-  // } else {
-    c.query("SELECT user_id, 900, first, last FROM users ORDER BY 900", function(error, results, fields) {
+  if (!isAdmin(req.params.token)) {
+    res.status(403).send();
+  } else {
+    c.query("SELECT user_id, ninehundred, first, last FROM users ORDER BY ninehundred", function(error, results, fields) {
       if (error) { res.status(400).send(); throw error; }
       if (results.length == 0) {
         res.status(204).send();

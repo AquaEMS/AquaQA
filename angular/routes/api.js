@@ -66,21 +66,25 @@ function getDailySummary(callback) {
 }
 
 function handleQuestionCategories(callback) {
-  c.query("SELECT * FROM categories", function(error, results, fields) {
-    if (error) { res.status(400).send(); throw error; }
-    if (results.length == 0) {
-      res.status(204).send();
+  c.query("SELECT * FROM categories", function(error, categories, fields) {
+    if (error) callback(400);
+    if (categories.length == 0) {
+      callback(204);
     } else {
-      for (var x = 0; x < results.length; x++) {
-        c.query("SELECT * FROM questions WHERE active = 1 AND category = ?", [results[x].category_id], function(error, results1, fields) {
-          if (error) { res.status(400).send(); throw error; }
-          console.log(JSON.stringify(results[x]));
-          // results[x]["questions"] = results1;
-        });
-      }
-      callback(results);
+      handleQuestions(categories, function(results) {
+        callback(results);
+      });
     }
   });
+}
+
+function handleQuestions(categories, callback) {
+  for (var x = 0; x < categories.length; x++) {
+    c.query("SELECT * FROM questions WHERE active = 1 AND category = ? ORDER BY questionOrder", x, function(error, results, fields) {
+      categories[x]["questions"] = results;
+    });
+  }
+  callback(categories);
 }
 
 
@@ -229,8 +233,16 @@ router.get("/get/questions/:token", function(req, res) {
   if (req.params.token != "y9QoBe1bTC") { // TODO: Change to seesion id
     res.status(403).send();
   } else {
-    // handleQuestionCategories(function(results) {
-    // })
+    handleQuestionCategories(function(results) {
+      if (results == 204) {
+        res.status(204).send();
+      } else if (results == 400) {
+        res.status(400).send();
+        throw error;
+      } else {
+        res.status(201).send(results);
+      }
+    });
   }
 })
 

@@ -65,6 +65,24 @@ function getDailySummary(callback) {
   });
 }
 
+function handleQuestionCategories(callback) {
+  c.query("SELECT * FROM categories", function(error, results, fields) {
+    if (error) { res.status(400).send(); throw error; }
+    if (results.length == 0) {
+      res.status(204).send();
+    } else {
+      for (var x = 0; x < results.length; x++) {
+        c.query("SELECT * FROM questions WHERE active = 1 AND category = ?", [results[x].category_id], function(error, results1, fields) {
+          if (error) { res.status(400).send(); throw error; }
+          console.log(JSON.stringify(results[x]));
+          // results[x]["questions"] = results1;
+        });
+      }
+      callback(results);
+    }
+  });
+}
+
 
 router.get("/get/tics/:token", function(req, res) {
   //if user isn't an admin or a qa person
@@ -211,15 +229,8 @@ router.get("/get/questions/:token", function(req, res) {
   if (req.params.token != "y9QoBe1bTC") { // TODO: Change to seesion id
     res.status(403).send();
   } else {
-    c.query("SELECT * FROM questions WHERE active = 1 ORDER BY category, questionOrder", function(error, results, fields) {
-      if (error) { res.status(400).send(); throw error; }
-      if (results.length == 0) {
-        res.status(204).send();
-      } else {
-        console.log(results);
-        res.status(201).send(results);
-      }
-    });
+    // handleQuestionCategories(function(results) {
+    // })
   }
 })
 

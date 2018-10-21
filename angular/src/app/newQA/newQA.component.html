@@ -47,7 +47,7 @@
             name="qa_tic"
             [items]="ccs"
             bindLabel="ninehundred"
-            [(ngModel)]="selectedCC">
+            [(ngModel)]="qa.tic">
           </ng-select>
         </div>
         <div class="form-group col-md-3">
@@ -64,7 +64,7 @@
         <div class="form-group col-md-2">
           <label for="preceptor900number">900 number</label>
           <ng-select
-            name="qa_prec"
+            name="qa_prec_nine"
             [items]="preceptors"
             bindLabel="ninehundred"
             [(ngModel)]="qa.preceptor"

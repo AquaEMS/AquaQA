@@ -1,4 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { apiService } from "../services/api.service";
+import { Http } from '@angular/http';
+// import 'rxjs/add/operator/map';
+import {NgbTypeahead} from '@ng-bootstrap/ng-bootstrap';
+import {Observable, Subject, merge} from 'rxjs';
+import {debounceTime, distinctUntilChanged, filter, map} from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-settings',
@@ -7,19 +14,38 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SettingsComponent implements OnInit {
 
-  constructor() { }
+  public pass_mismatch = false;
 
-  user: object = {
+  constructor(private api: apiService, private http: Http) { }
+
+  user: any = {
     first: "",
     last: "",
-    nine: "",
+    ninehundred: "",
     email: "",
     username: "",
-    pass_og: "",
+    password: "",
     pass_conf: "",
-    user_admin: "",
-    user_qa: "",
-    user_prec: ""
+    admin: "",
+    qa: "",
+    preceptor: ""
+  }
+
+
+
+  public addUser(){
+    this.pass_mismatch = false;
+    if (this.user.password != this.user.pass_conf) {
+      this.pass_mismatch = true;
+    } else{
+      console.log(this.user);
+      this.api.createUser(this.user).subscribe(
+        response => {
+          console.log(response);
+        }
+      );
+    }
+
   }
 
   ngOnInit() {

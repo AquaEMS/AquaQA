@@ -1,5 +1,12 @@
 <div class="container">
   <div class="row">
+    <div class="col-md-12">
+      <div class="alert alert-danger" role="alert" *ngIf="pass_mismatch">
+        Your passwords to not match. Please try again.
+      </div>
+    </div>
+  </div>
+  <div class="row">
     <div class="col-md-6">
       <div class="card">
         <div class="card-header">
@@ -24,7 +31,7 @@
                 <div class="row">
                   <div class="form-group col-md-12">
                     <label for="prid">900 Number</label>
-                    <input type="text" class="form-control" [(ngModel)]="user.nine" name="user_nine" id="user_nine" placeholder="" data-validation="length" data-validation-length="8" data-validation-error-msg="PRID must be exactly 8 numbers long.">
+                    <input type="text" class="form-control" [(ngModel)]="user.ninehundred" name="user_nine" id="user_nine" placeholder="" data-validation="length" data-validation-length="8" data-validation-error-msg="PRID must be exactly 8 numbers long.">
                   </div>
                 </div>
                 <div class="row">
@@ -44,7 +51,7 @@
                 <div class="row">
                   <div class="form-group col-md-12">
                     <label for="prid">Password</label>
-                    <input type="password" class="form-control" [(ngModel)]="user.pass_og" name="pass_og" id="pass_og" placeholder="" data-validation="length" data-validation-length="8" data-validation-error-msg="PRID must be exactly 8 numbers long.">
+                    <input type="password" class="form-control" [(ngModel)]="user.password" name="pass_og" id="pass_og" placeholder="" data-validation="length" data-validation-length="8" data-validation-error-msg="PRID must be exactly 8 numbers long.">
                   </div>
                 </div>
                 <div class="row">
@@ -110,7 +117,7 @@
         </div>
         <div class="col col-md-2 form-group text-center pull-right">
           <label>&nbsp;</label>
-          <button type="submit" class="btn btn-success btn-lg" (click)="sendQA()" id="submit">Submit</button>
+          <button type="submit" class="btn btn-success btn-lg" (click)="addUser()" id="submit">Submit</button>
         </div>
       </div>
     </div>

@@ -61,4 +61,13 @@ export class apiService {
       .catch(this.handleError);
   }
 
+  public createUser(data): Observable<any[]> {
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+    console.log(data);
+    return this.http.post(this.apiURL + '/new/user', data, options)
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
 }

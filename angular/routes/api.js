@@ -29,9 +29,10 @@ c.connect(function(err) {
 });
 
 
+// TODO: the following function should almost certainly not be in this file
 cron.schedule("* 18 * * *", function() {
   getDailySummary(function(data) {
-
+    // TODO: write this function to generate and send an email to the captian
   });
 });
 
@@ -43,7 +44,7 @@ function isAdmin(session_id) {
   })
 }
 
-function isAdmin(session_id) {
+function isQa(session_id) {
   c.query("SELECT qa FROM users WHERE user_id IN (SELECT user_id FROM sessions WHERE session_id = ?", [session_id], function(error, results, fields) {
     if (error) throw error;
     return (results[0].qa == 1);
@@ -64,13 +65,35 @@ function getDailySummary(callback) {
   });
 }
 
+function handleQuestionCategories(callback) {
+  c.query("SELECT * FROM categories", function(error, categories, fields) {
+    if (error) callback(400);
+    if (categories.length == 0) {
+      callback(204);
+    } else {
+      handleQuestions(categories, function(results) {
+        callback(results);
+      });
+    }
+  });
+}
 
-router.get("/api/get/tics/:token", function(req, res) {
+function handleQuestions(categories, callback) {
+  for (var x = 0; x < categories.length; x++) {
+    c.query("SELECT * FROM questions WHERE active = 1 AND category = ? ORDER BY questionOrder", x, function(error, results, fields) {
+      categories[x]["questions"] = results;
+    });
+  }
+  callback(categories);
+}
+
+
+router.get("/get/tics/:token", function(req, res) {
   //if user isn't an admin or a qa person
   if (!(isAdmin(req.params.token) || isQa(req.params.token))) {
     res.status(403).send();
   } else {
-    c.query("SELECT user_id, first, last, 900 FROM users WHERE active = 1 ORDER BY 900", function(error, results, fields) {
+    c.query("SELECT user_id, first, last, ninehundred FROM users WHERE active = 1 ORDER BY ninehundred", function(error, results, fields) {
       if (error) { res.status(400).send(); throw error; }
       if (results.length == 0) {
         res.status(204).send();
@@ -81,12 +104,12 @@ router.get("/api/get/tics/:token", function(req, res) {
   }
 })
 
-router.get("/api/get/preceptors/:token", function(req, res) {
+router.get("/get/preceptors/:token", function(req, res) {
   //if user isn't an admin or a qa person
   if (!(isAdmin(req.params.token) || isQa(req.params.token))) {
     res.status(403).send();
   } else {
-    c.query("SELECT user_id, first, last, 900 FROM users WHERE preceptor = 1 AND active = 1 ORDER BY 900", function(error, results, fields) {
+    c.query("SELECT user_id, first, last, ninehundred FROM users WHERE preceptor = 1 AND active = 1 ORDER BY ninehundred", function(error, results, fields) {
       if (error) { res.status(400).send(); throw error; }
       if (results.length == 0) {
         res.status(204).send();
@@ -97,7 +120,7 @@ router.get("/api/get/preceptors/:token", function(req, res) {
   }
 })
 
-router.get("/api/get/admins/:token", function(req, res) {
+router.get("/get/admins/:token", function(req, res) {
   //if user isn't an admin
   if (!isAdmin(req.params.token)) {
     res.status(403).send();
@@ -113,12 +136,12 @@ router.get("/api/get/admins/:token", function(req, res) {
   }
 })
 
-router.get("/api/get/users/:token", function(req, res) {
+router.get("/get/users/:token", function(req, res) {
   //if user isn't an admin
-  // if (!isAdmin(req.params.token)) {
-  //   res.status(403).send();
-  // } else {
-    c.query("SELECT user_id, 900, first, last FROM users ORDER BY 900", function(error, results, fields) {
+  if (!isAdmin(req.params.token)) {
+    res.status(403).send();
+  } else {
+    c.query("SELECT user_id, ninehundred, first, last FROM users ORDER BY ninehundred", function(error, results, fields) {
       if (error) { res.status(400).send(); throw error; }
       if (results.length == 0) {
         res.status(204).send();
@@ -126,10 +149,10 @@ router.get("/api/get/users/:token", function(req, res) {
         res.status(201).send(results);
       }
     });
-  //}
+  }
 })
 
-router.get("/api/get/user/:user_id/:token", function(req, res) {
+router.get("/get/user/:user_id/:token", function(req, res) {
   //if user isn't an admin or requesting info about themselves
   if (!(isAdmin(req.params.token) || getUserId(req.params.token) == req.params.user_id)) {
     res.status(403).send();
@@ -145,7 +168,7 @@ router.get("/api/get/user/:user_id/:token", function(req, res) {
   }
 })
 
-router.get("/api/get/qas/:token", function(req, res) {
+router.get("/get/qas/:token", function(req, res) {
   let userId = getUserId(req.params.token);
 
   //if user not logged in
@@ -177,7 +200,6 @@ router.get("/api/get/qas/:token", function(req, res) {
 })
 
 router.get("/get/determinants/:token", function(req, res) {
-  console.log("GD");
   if (req.params.token != "y9QoBe1bTC") { // TODO: Change to seesion id
     res.status(403).send();
   } else {
@@ -192,11 +214,11 @@ router.get("/get/determinants/:token", function(req, res) {
   }
 })
 
-router.get("/api/get/qa/:qa_id/:token", function(req, res) {
+router.get("/get/qa/:qa_id/:token", function(req, res) {
   if (req.params.token != "y9QoBe1bTC") { // TODO: Change to seesion id
     res.status(403).send();
   } else {
-    c.query("SELECT * FROM qas WHERE qa_id = ?", [req.params.qa_id], function(error, results, fields) {
+    c.query("SELECT * FROM qas WHERE qa_id = ?", [req.params.qa_id], function(error, results, fields) { // TODO: add questions to this
       if (error) { res.status(400).send(); throw error; }
       if (results.length == 0) {
         res.status(204).send();
@@ -207,14 +229,16 @@ router.get("/api/get/qa/:qa_id/:token", function(req, res) {
   }
 })
 
-router.get("/api/get/qa/:qa_id/questions/:token", function(req, res) {
+router.get("/get/questions/:token", function(req, res) {
   if (req.params.token != "y9QoBe1bTC") { // TODO: Change to seesion id
     res.status(403).send();
   } else {
-    c.query("SELECT * FROM questions WHERE active = 1 ORDER BY questionOrder", function(error, results, fields) {
-      if (error) { res.status(400).send(); throw error; }
-      if (results.length == 0) {
+    handleQuestionCategories(function(results) {
+      if (results == 204) {
         res.status(204).send();
+      } else if (results == 400) {
+        res.status(400).send();
+        throw error;
       } else {
         res.status(201).send(results);
       }
@@ -224,25 +248,25 @@ router.get("/api/get/qa/:qa_id/questions/:token", function(req, res) {
 
 
 
-router.post("/api/new/user", function(req, res) {
+router.post("/new/user", function(req, res) {
   c.query("INSERT INTO `user` SET ?", req.body[0], function(error, results, field) {
     if (error) { res.status(400).send(); throw error; } // TODO: add session check
   });
 })
 
-router.post("/api/new/question", function(req, res) {
+router.post("/new/question", function(req, res) {
   c.query("INSERT INTO `questions` SET ?", req.body[0], function(error, results, field) {
     if (error) { res.status(400).send(); throw error; } // TODO: add session check
   });
 })
 
-router.post("/api/new/category", function(req, res) {
+router.post("/new/category", function(req, res) {
   c.query("INSERT INTO `category` SET ?", req.body[0], function(error, results, field) {
     if (error) { res.status(400).send(); throw error; } // TODO: add session check
   });
 })
 
-router.post('/api/new/qa', jsonParser, function(req, res) {
+router.post('/new/qa', jsonParser, function(req, res) {
   c.query("INSERT INTO `qas` SET ?", req.body[0], function(error, results, field) {
     if (error) { res.status(400).send(); throw error; } // TODO: add session check
     for (var x = 0; x < req.body[1].questions.length; x++) {

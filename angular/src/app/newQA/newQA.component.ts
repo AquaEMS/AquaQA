@@ -20,6 +20,7 @@ export class NewQAComponent implements OnInit {
   private preceptors: any;
   private qs: any;
   private ccs: any;
+  public prec_disable: boolean = false;
 
 
   constructor(private api: apiService, private http: Http){};
@@ -33,7 +34,7 @@ export class NewQAComponent implements OnInit {
     determinant: "NONE",
     tic: {},
     ticnine: "",
-    preceptor: "",
+    preceptor: {},
     precnine: "",
     noPrec: false,
     yn1: "",
@@ -83,6 +84,9 @@ export class NewQAComponent implements OnInit {
 
 */
 
+public togglePrec(){
+  this.prec_disable = !this.prec_disable;
+}
 
   public sendQA(){
     console.log(this.qa);

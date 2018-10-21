@@ -38,7 +38,7 @@
               name="qa_tic"
               [items]="ccs"
               bindLabel="first_last"
-              [(ngModel)]="selectedCC">
+              [(ngModel)]="qa.tic">
             </ng-select>
         </div>
         <div class="form-group col-md-2">
@@ -56,7 +56,9 @@
             name="qa_prec"
             [items]="preceptors"
             bindLabel="first_last"
-            [(ngModel)]="qa.preceptor">
+            [(ngModel)]="qa.preceptor"
+            [disabled]="prec_disable"
+            >
           </ng-select>
         </div>
         <div class="form-group col-md-2">
@@ -65,14 +67,16 @@
             name="qa_prec"
             [items]="preceptors"
             bindLabel="ninehundred"
-            [(ngModel)]="qa.preceptor">
+            [(ngModel)]="qa.preceptor"
+            [disabled]="prec_disable"
+            >
           </ng-select>
         </div>
         <div class="col-md-2 no-preceptor text-center">
           <label for="preceptor900number">&nbsp;</label>
           <div class="btn-group btn-group-toggle" ngbRadioGroup name="noPrec" [(ngModel)]="qa.noPrec">
             <label ngbButtonLabel class="btn-secondary">
-              <input ngbButton type="checkbox" [value]="1"> No Preceptor
+              <input (click)="togglePrec()" ngbButton type="checkbox" [value]="1"> No Preceptor
             </label>
           </div>
         </div>

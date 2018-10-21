@@ -13,7 +13,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UiSwitchModule } from 'ngx-toggle-switch';
 import { NgSelectModule } from '@ng-select/ng-select';
 
-
 // THINGS WE MADE
 import { NewQAComponent } from './newQA/newQA.component';
 import { HeaderComponent } from './header/header.component';
@@ -42,7 +41,7 @@ import { AppRoutingModule } from './app-routing/app-routing.module';
     AngularFontAwesomeModule,
     BrowserAnimationsModule,
     UiSwitchModule,
-    NgSelectModule
+    NgSelectModule,
   ],
   providers: [apiService],
   bootstrap: [AppComponent]

@@ -52,4 +52,13 @@ export class apiService {
     return this.http.get(request).map(this.extractData);
   }
 
+  public createQA(data): Observable<any[]> {
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+    console.log(data);
+    return this.http.post(this.apiURL + '/new/qa', data, options)
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
 }

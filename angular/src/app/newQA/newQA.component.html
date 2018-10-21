@@ -74,9 +74,9 @@
         </div>
         <div class="col-md-2 no-preceptor text-center">
           <label for="preceptor900number">&nbsp;</label>
-          <div class="btn-group btn-group-toggle" ngbRadioGroup name="noPrec" [(ngModel)]="qa.noPrec">
+          <div class="btn-group btn-group-toggle" ngbRadioGroup >
             <label ngbButtonLabel class="btn-secondary">
-              <input (click)="togglePrec()" ngbButton type="checkbox" [value]="1"> No Preceptor
+              <input (click)="togglePrec()" name="noPrec" [(ngModel)]="qa.noPrec" ngbButton type="checkbox" [value]="1"> No Preceptor
             </label>
           </div>
         </div>

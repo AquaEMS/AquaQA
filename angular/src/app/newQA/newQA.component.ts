@@ -90,6 +90,11 @@ public togglePrec(){
 
   public sendQA(){
     console.log(this.qa);
+    this.api.createQA(this.qa).subscribe(
+      response => {
+        console.log(response);
+      }
+    );
   }
 
   public activateButton() {

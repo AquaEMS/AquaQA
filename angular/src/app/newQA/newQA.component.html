@@ -34,47 +34,39 @@
       <div class="row">
         <div class="form-group col-md-3">
           <label for="typeahead-focus">Tech in charge:</label>
-            <input
-              id="typeahead-tic"
-              type="text"
-              name = "qa_tic"
-              class="form-control"
-              [(ngModel)]="qa.tic"
-              [ngbTypeahead]="search"
-              (focus)="focus$.next($event.target.value)"
-              (click)="click$.next($event.target.value)"
-              #instance="ngbTypeahead"
-            />
+            <ng-select
+              name="qa_tic"
+              [items]="ccs"
+              bindLabel="first_last"
+              [(ngModel)]="selectedCC">
+            </ng-select>
         </div>
         <div class="form-group col-md-2">
           <label for="900number">900 number</label>
-          <select class="form-control 900number" [(ngModel)]="qa.ticnine" name="tic900" id="900number" placeholder="900 number" data-validation="required">
-            <option></option>
-            <option value="Dan Bruce">987</option>
-            <option value="John Jacangelo">923</option>
-          </select>
+          <ng-select
+            name="qa_tic"
+            [items]="ccs"
+            bindLabel="ninehundred"
+            [(ngModel)]="selectedCC">
+          </ng-select>
         </div>
         <div class="form-group col-md-3">
           <label for="typeahead-focus">Preceptor:</label>
-            <input
-              id="typeahead-prec"
-              type="text"
-              name = "qa_prec"
-              class="form-control"
-              [(ngModel)]="qa.preceptor"
-              [ngbTypeahead]="search"
-              (focus)="focus$.next($event.target.value)"
-              (click)="click$.next($event.target.value)"
-              #instance="ngbTypeahead"
-            />
+          <ng-select
+            name="qa_prec"
+            [items]="preceptors"
+            bindLabel="first_last"
+            [(ngModel)]="qa.preceptor">
+          </ng-select>
         </div>
         <div class="form-group col-md-2">
           <label for="preceptor900number">900 number</label>
-          <select class="form-control preceptor900number" [(ngModel)]="qa.precnine" name="preceptor900number" id="preceptor900number" placeholder="900 number">
-            <option></option>
-            <option value="Dan Bruce">987</option>
-            <option value="John Jacangelo">923</option>
-          </select>
+          <ng-select
+            name="qa_prec"
+            [items]="preceptors"
+            bindLabel="ninehundred"
+            [(ngModel)]="qa.preceptor">
+          </ng-select>
         </div>
         <div class="col-md-2 no-preceptor text-center">
           <label for="preceptor900number">&nbsp;</label>

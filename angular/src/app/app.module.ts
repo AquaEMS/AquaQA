@@ -11,6 +11,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UiSwitchModule } from 'ngx-toggle-switch';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 
 // THINGS WE MADE
@@ -40,7 +41,8 @@ import { AppRoutingModule } from './app-routing/app-routing.module';
     HttpModule,
     AngularFontAwesomeModule,
     BrowserAnimationsModule,
-    UiSwitchModule
+    UiSwitchModule,
+    NgSelectModule
   ],
   providers: [apiService],
   bootstrap: [AppComponent]

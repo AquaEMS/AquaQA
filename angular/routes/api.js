@@ -106,9 +106,9 @@ router.get("/get/tics/:token", function(req, res) {
 
 router.get("/get/preceptors/:token", function(req, res) {
   //if user isn't an admin or a qa person
-  if (!(isAdmin(req.params.token) || isQa(req.params.token))) {
-    res.status(403).send();
-  } else {
+  // if (!(isAdmin(req.params.token) || isQa(req.params.token))) {
+  //   res.status(403).send();
+  // } else {
     c.query("SELECT user_id, first, last, ninehundred FROM users WHERE preceptor = 1 AND active = 1 ORDER BY ninehundred", function(error, results, fields) {
       if (error) { res.status(400).send(); throw error; }
       if (results.length == 0) {
@@ -117,7 +117,7 @@ router.get("/get/preceptors/:token", function(req, res) {
         res.status(201).send(results);
       }
     });
-  }
+  // }
 })
 
 router.get("/get/admins/:token", function(req, res) {
@@ -138,9 +138,9 @@ router.get("/get/admins/:token", function(req, res) {
 
 router.get("/get/users/:token", function(req, res) {
   //if user isn't an admin
-  if (!isAdmin(req.params.token)) {
-    res.status(403).send();
-  } else {
+  // if (!isAdmin(req.params.token)) {
+  //   res.status(403).send();
+  // } else {
     c.query("SELECT user_id, ninehundred, first, last FROM users ORDER BY ninehundred", function(error, results, fields) {
       if (error) { res.status(400).send(); throw error; }
       if (results.length == 0) {
@@ -149,7 +149,7 @@ router.get("/get/users/:token", function(req, res) {
         res.status(201).send(results);
       }
     });
-  }
+  // }
 })
 
 router.get("/get/user/:user_id/:token", function(req, res) {

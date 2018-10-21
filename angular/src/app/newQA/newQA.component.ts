@@ -20,7 +20,6 @@ export class NewQAComponent implements OnInit {
   private preceptors: any;
   private qs: any;
   private ccs: any;
-  private tics = ['Dan Bruce', 'David Sparkman', 'Ricky Rescue'];
 
 
   constructor(private api: apiService, private http: Http){};
@@ -32,7 +31,7 @@ export class NewQAComponent implements OnInit {
     prid: 0,
     problem: "",
     determinant: "NONE",
-    tic: "",
+    tic: {},
     ticnine: "",
     preceptor: "",
     precnine: "",
@@ -47,21 +46,6 @@ export class NewQAComponent implements OnInit {
     yn8: "",
     flagged: ""
   };
-
-  @ViewChild('instance') instance: NgbTypeahead;
-  focus$ = new Subject<string>();
-  click$ = new Subject<string>();
-
-  search = (text$: Observable<string>) => {
-    const debouncedText$ = text$.pipe(debounceTime(200), distinctUntilChanged());
-    const clicksWithClosedPopup$ = this.click$.pipe(filter(() => !this.instance.isPopupOpen()));
-    const inputFocus$ = this.focus$;
-
-    return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$).pipe(
-      map(term => (term === '' ? this.tics
-        : this.tics.filter(v => v.toLowerCase().indexOf(term.toLowerCase()) > -1)).slice(0, 10))
-    );
-  }
 
 /*
 
@@ -117,13 +101,17 @@ export class NewQAComponent implements OnInit {
     });
     this.api.getPreceptors().subscribe(
       response => {
+        for (let item of response){
+          item.first_last = item.last + ", " + item.first;
+        }
         this.preceptors = response;
-        console.log(this.preceptors);
       });
     this.api.getUsers().subscribe(
       response => {
+        for (let item of response){
+          item.first_last = item.last + ", " + item.first;
+        }
         this.ccs = response;
-        console.log(this.ccs)
       }
     )
     // this.api.getQuestions().subscribe(

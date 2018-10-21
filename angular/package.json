@@ -48,6 +48,7 @@
     "ngx-toggle-switch": "^2.0.5",
     "node-cron": "^2.0.3",
     "popper.js": "^1.14.4",
+    "promise": "^8.0.2",
     "rxjs": "^6.3.3",
     "rxjs-compat": "^6.3.3",
     "sendmail": "^1.4.1",

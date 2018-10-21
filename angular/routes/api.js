@@ -1,11 +1,14 @@
 var express = require('express');
-var router = express.Router();
 var mysql = require('mysql');
 var bodyParser = require('body-parser');
-const config = require('./server_conf');
-var jsonParser = bodyParser.json();
 var cron = require('node-cron');
 var Promise = require('promise');
+
+const config = require('./server_conf');
+
+var router = express.Router();
+var jsonParser = bodyParser.json();
+
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -64,6 +67,14 @@ function getUserId(session_id) {
 function getDailySummary(callback) {
   c.query("SELECT prid, date, tic, preceptor, flagged FROM qas WHERE reviewDate BETWEEN (NOW() - INTERVAL 1 DAY) AND NOW()", function (error, results, fields) {
     callback(results);
+  });
+}
+
+function handleCategoryQuestions(category) {
+  c.query("SELECT * FROM questions WHERE active = 1 AND category = ? ORDER BY questionOrder", category.category_id, function(error, results, fields) {
+    if (error) throw error;
+    category["questions"] = results;
+    return category;
   });
 }
 
@@ -235,14 +246,12 @@ router.get("/get/questions/:token", function(req, res) {
       if (categories.length == 0) {
         res.status(204).send();
       } else {
-        Promise.all(categories.map(category => c.query("SELECT * FROM questions WHERE active = 1 AND category = ? ORDER BY questionOrder", category.category_id, function(error, results, fields) {
-          category["questions"] = results;
-        })
-      )).then(() => { res.status(201).send(categories); })
-    }
-  });
-
-}
+        Promise.all(categories.map(category => handleCategoryQuestions(category))).then(() => {
+          setTimeout(function() {res.status(201).send(categories);}, 100);
+        });
+      }
+    });
+  }
 })
 
 

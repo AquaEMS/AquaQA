@@ -1,4 +1,4 @@
-#### This project is in development.
+### This project is in development.
 ---
 
 # Aqua
@@ -9,8 +9,8 @@ The application allows for configurable QA questions, automatic alerts based on 
 ### Technologies
 Aqua is being developed using Angular 6 and Node 10. We recommend using MariaDB for your relational database needs.
 
-### To Run
-Run `npm install` and then `npm start` while in the `/angular' directory.
+### How to run
+Run `npm install` and then `npm start` while in the `/angular` directory.
 
 ---
 

@@ -62,6 +62,11 @@ export class apiService {
     return this.http.get(request).map(this.extractData);
   }
 
+  public getTics(): Observable<any[]> {
+    let request = this.apiURL + 'get/tics/' + this.token;
+    return this.http.get(request).map(this.extractData);
+  }
+
   public createQA(data): Observable<any[]> {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });

@@ -115,7 +115,7 @@ public togglePrec(){
         }
         this.preceptors = response;
       });
-    this.api.getUsers().subscribe(
+    this.api.getTics().subscribe(
       response => {
         for (let item of response){
           item.first_last = item.last + ", " + item.first;

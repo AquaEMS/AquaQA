@@ -8,10 +8,11 @@ import { FormsModule } from '@angular/forms';
 
 // PACKAGES (THINGS OTHER PEOPLE)
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import { AngularFontAwesomeModule } from 'angular-font-awesome';
+// import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UiSwitchModule } from 'ngx-toggle-switch';
 import { NgSelectModule } from '@ng-select/ng-select';
+import fontawesome from '@fortawesome/fontawesome-free';
 
 
 // THINGS WE MADE
@@ -39,10 +40,9 @@ import { AppRoutingModule } from './app-routing/app-routing.module';
     FormsModule,
     NgbModule,
     HttpModule,
-    AngularFontAwesomeModule,
     BrowserAnimationsModule,
     UiSwitchModule,
-    NgSelectModule,
+    NgSelectModule
   ],
   providers: [apiService],
   bootstrap: [AppComponent]

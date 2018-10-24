@@ -4,6 +4,12 @@
       <div class="alert alert-danger" role="alert" *ngIf="pass_mismatch">
         Your passwords to not match. Please try again.
       </div>
+      <div class="alert alert-success" role="alert" *ngIf="user_success">
+        <i class="fas fa-user-plus"></i><strong> Congrats! </strong>The user account for {{user.first}} {{user.last}} was added.
+      </div>
+      <div class="alert alert-warning" role="alert" *ngIf="user_error">
+        This is a different error. Probably for duplicate names.
+      </div>
     </div>
   </div>
   <div class="row">
@@ -103,7 +109,7 @@
                     </div>
                   </div>
                   <div class="col-sm-2 col-4 question-answer">
-                    <div class="btn-group btn-group-toggle" ngbRadioGroup name="user_prec" [(ngModel)]="user.prec">
+                    <div class="btn-group btn-group-toggle" ngbRadioGroup name="user_prec" [(ngModel)]="user.preceptor">
                       <label ngbButtonLabel class="btn-secondary">
                         <input ngbButton type="radio" [value]="1"> Yes
                       </label>

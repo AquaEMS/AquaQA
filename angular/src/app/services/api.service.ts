@@ -22,9 +22,19 @@ export class apiService {
     // this.options = new RequestOptions({ headers: this.headers });
   }
 
-  private extractData(res: Response) {
-    let body = res.json();
-    return body;
+  private extractData(res: any) {
+    console.log(res);
+    if (res._body != "") {
+      let body = res.json();
+      return body;
+    } else{
+      if (res.status == 200){
+        return {status: 200, message: "success"};
+      } else {
+        return {status: res.status, message: "error"};
+      }
+    }
+
   }
 
   private handleError(error: any): Promise<any> {
@@ -64,6 +74,9 @@ export class apiService {
   public createUser(data): Observable<any[]> {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
+    delete data.pass_conf;
+    data.active = 1;
+    data.neverLoggedIn = 1;
     console.log(data);
     return this.http.post(this.apiURL + '/new/user', data, options)
       .map(this.extractData)

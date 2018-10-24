@@ -247,8 +247,10 @@ router.get("/get/questions/:token", function(req, res) {
 
 
 router.post("/new/user", function(req, res) {
-  c.query("INSERT INTO `user` SET ?", req.body[0], function(error, results, field) {
+  console.log(req.body);
+  c.query("INSERT INTO `users` SET ?", req.body, function(error, results, field) {
     if (error) { res.status(400).send(); throw error; } // TODO: add session check
+    else {res.status(200).send();}
   });
 })
 

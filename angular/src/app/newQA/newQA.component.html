@@ -8,7 +8,7 @@
             <input class="form-control" placeholder="yyyy-mm-dd"
               name="dp" [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker">
               <div class="input-group-append">
-                <button class="btn btn-secondary" (click)="d.toggle()" type="button"><fa name="calendar"></fa></button>
+                <button class="btn btn-secondary" (click)="d.toggle()" type="button"><i class="fas fa-calendar"></i></button>
               </div>
             </div>
         </div>
@@ -273,10 +273,10 @@
               <label for="flagged">Flagged for review</label>
               <div class="btn-group btn-group-toggle" ngbRadioGroup name="flagged" [(ngModel)]="qa.flagged">
                 <label ngbButtonLabel class="btn-secondary">
-                  <input ngbButton type="radio" [value]="1"> Yes
+                  <input ngbButton type="radio" [value]="1"><i class="fas fa-user-injured"></i> Yes
                 </label>
                 <label ngbButtonLabel class="btn-secondary">
-                  <input ngbButton type="radio" [value]="0"> No
+                  <input ngbButton type="radio" [value]="0"><i class="fas fa-user-md"></i> No
                 </label>
               </div>
             </div>

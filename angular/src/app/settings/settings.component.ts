@@ -15,6 +15,8 @@ import {debounceTime, distinctUntilChanged, filter, map} from 'rxjs/operators';
 export class SettingsComponent implements OnInit {
 
   public pass_mismatch = false;
+  public user_success = false;
+  public user_error = false;
 
   constructor(private api: apiService, private http: Http) { }
 
@@ -42,6 +44,7 @@ export class SettingsComponent implements OnInit {
       this.api.createUser(this.user).subscribe(
         response => {
           console.log(response);
+          this.user_success = true;
         }
       );
     }

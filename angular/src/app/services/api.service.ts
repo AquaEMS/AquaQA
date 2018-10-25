@@ -53,7 +53,7 @@ export class apiService {
   }
 
   public getQuestions(): Observable<any[]> {
-    let request = this.apiURL + 'get/qa/:qa_id/questions/' + this.token;
+    let request = this.apiURL + 'get/questions/';
     return this.http.get(request).map(this.extractData);
   }
 

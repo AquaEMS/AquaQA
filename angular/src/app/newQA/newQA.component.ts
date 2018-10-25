@@ -27,7 +27,7 @@ export class NewQAComponent implements OnInit {
 
   title = 'New QA';
   isActive = false;
-  qa: object = {
+  qa: any = {
     date: "",
     prid: 0,
     problem: "",
@@ -86,6 +86,8 @@ export class NewQAComponent implements OnInit {
 
 public togglePrec(){
   this.prec_disable = !this.prec_disable;
+  this.qa.preceptor = "";
+  this.qa.precnine = "";
 }
 
   public sendQA(){
@@ -123,11 +125,11 @@ public togglePrec(){
         this.ccs = response;
       }
     )
-    // this.api.getQuestions().subscribe(
-    //   response => {
-    //     this.qs = response;
-    //     console.log(this.qs);
-    //   });
+    this.api.getQuestions().subscribe(
+      response => {
+        this.qs = response;
+        console.log(this.qs);
+      });
   }
 
 }

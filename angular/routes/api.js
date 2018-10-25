@@ -41,6 +41,11 @@ cron.schedule("* 18 * * *", function() {
   });
 });
 
+function isSignedIn(session_id) {
+  c.query("SELECT user_id FROM sessions WHERE session_id = ?", session_id, function(error, results, fields) {
+
+  })
+}
 
 function isAdmin(session_id) {
   c.query("SELECT admin FROM users WHERE user_id IN (SELECT user_id FROM sessions WHERE session_id = ?", session_id, function(error, results, fields) {
@@ -76,6 +81,19 @@ function handleCategoryQuestions(category) {
     category["questions"] = results;
     return category;
   });
+}
+
+async function get_data(query, params) {
+  try {
+    return new Promise(resolve => {
+      c.query(query, params, (error, results, fields) => {
+        console.log(results);
+        resolve(results);
+      });
+    })
+  } catch(error) {
+    throw error;
+  }
 }
 
 
@@ -160,6 +178,12 @@ router.get("/get/me/:token", function(req, res) {
   }
 });
 
+router.get("/get/session", function(req, res) {
+  c.query("SELECT * FROM sessions WHERE session_id = 12345678", function(e,r,f) {
+    res.status(200).send(r);
+  })
+})
+
 router.get("/get/user/:user_id/:token", function(req, res) {
   //if user isn't an admin or requesting info about themselves
   if (!dev && !(isAdmin(req.params.token) || getUserId(req.params.token) == req.params.user_id)) {
@@ -237,22 +261,21 @@ router.get("/get/qa/:qa_id/:token", function(req, res) {
   }
 })
 
-router.get("/get/questions/:token", function(req, res) {
-  if (!dev && req.params.token != "y9QoBe1bTC") { // TODO: Change to seesion id
-    res.status(403).send();
-  } else {
-    c.query("SELECT * FROM categories", function(error, categories, fields) {
-      if (error) { res.status(400).send(); throw error; }
-      if (categories.length == 0) {
-        res.status(204).send();
-      } else {
-        Promise.all(categories.map(category => handleCategoryQuestions(category))).then(() => {
-          setTimeout(function() {res.status(201).send(categories);}, 100);
-        });
-      }
-    });
+router.get('/get/questions', async (req, res) => {
+  try {
+    const categories = await get_data("SELECT * FROM categories");
+    const result = await Promise.all(
+      categories.map(async ({category_id, name}) => {
+        const questions = await get_data("SELECT * FROM questions WHERE category = ? AND ACTIVE = 1", [category_id])
+        return {category_id, name, questions};
+      })
+    )
+    res.status(200).send(result);
+  } catch(error) {
+    res.status(400).send();
+    throw error;
   }
-})
+});
 
 
 router.post("/new/user", function(req, res) {

@@ -7,15 +7,31 @@ var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var apiRouter = require('./routes/api');
-var jsonParser = bodyParser.json()
+var session = require('express-session');
+var MySQLStore = require('express-mysql-session')(session);
+
+
+var jsonParser = bodyParser.json();
 var app = express();
+
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'dist/aqua')));
 app.use('/', express.static(path.join(__dirname, 'dist/aqua')));
-app.use('/api', apiRouter);
+app.use('/api', apiRouter.router);
+
+app.use(session({
+    key: 'session_cookie_name',
+    secret: 'session_cookie_secret',
+    store: sessionStore,
+    resave: false,
+    saveUninitialized: false
+}));
+
+var sessionStore = new MySQLStore({}, apiRouter.dbconn);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

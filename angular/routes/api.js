@@ -3,6 +3,7 @@ var mysql = require('mysql');
 var bodyParser = require('body-parser');
 var cron = require('node-cron');
 var Promise = require('promise');
+var server = require('../server');
 
 const config = require('./server_conf');
 
@@ -32,6 +33,7 @@ c.connect(function(err) {
 
   console.log("MariaDB connected as id " + c.threadId);
 });
+
 
 
 // TODO: the following function should almost certainly not be in this file
@@ -311,4 +313,8 @@ router.post('/new/qa', jsonParser, function(req, res) {
   });
 });
 
-module.exports = router;
+apiExports = {};
+apiExports.router = router;
+apiExports.dbconn = c;
+
+module.exports = apiExports;

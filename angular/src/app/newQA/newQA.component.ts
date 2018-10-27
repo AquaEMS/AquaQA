@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { QA }    from '../qa';
+import { QA }    from './qa_class/qa.class';
 import { apiService } from "../services/api.service";
 import { Http } from '@angular/http';
 // import 'rxjs/add/operator/map';
@@ -30,22 +30,18 @@ export class NewQAComponent implements OnInit {
   qa: any = {
     date: "",
     prid: 0,
-    problem: "",
-    determinant: "NONE",
+    description: "",
+    determinant: 0,
     tic: {},
     ticnine: "",
     preceptor: {},
     precnine: "",
     noPrec: false,
-    yn1: "",
-    yn2: "",
-    yn3: "",
-    yn4: "",
-    yn5: "",
-    yn6: "",
-    yn7: "",
-    yn8: "",
-    flagged: ""
+    comments: "",
+    flagged: "",
+    questions: [],
+    reviewer: 0,
+    reviewDate: ""
   };
 
 /*
@@ -113,14 +109,14 @@ public togglePrec(){
     this.api.getPreceptors().subscribe(
       response => {
         for (let item of response){
-          item.first_last = item.last + ", " + item.first;
+          item.first_last = item.last + ", " + item.first + " | " + item.ninehundred;
         }
         this.preceptors = response;
       });
     this.api.getTics().subscribe(
       response => {
         for (let item of response){
-          item.first_last = item.last + ", " + item.first;
+          item.first_last = item.last + ", " + item.first + " | " + item.ninehundred;
         }
         this.ccs = response;
       }

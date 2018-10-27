@@ -20,70 +20,36 @@ export class NewQAComponent implements OnInit {
   private preceptors: any;
   private qs: any;
   private ccs: any;
+  public qa: QA;
   public prec_disable: boolean = false;
-
+  public formReady: boolean = false;
 
   constructor(private api: apiService, private http: Http){};
 
+  // qa: QA;
+
   title = 'New QA';
   isActive = false;
-  qa: any = {
-    date: "",
-    prid: 0,
-    description: "",
-    determinant: 0,
-    tic: {},
-    ticnine: "",
-    preceptor: {},
-    precnine: "",
-    noPrec: false,
-    comments: "",
-    flagged: "",
-    questions: [],
-    reviewer: 0,
-    reviewDate: ""
-  };
-
-/*
-
-[
-  {
-    "qa_id": null,
-    "prid": 12345678,
-    "date": "2018-09-01",
-    "description": "Traumatic injury",
-    "tic": 1,
-    "preceptor": null,
-    "determinant": 5,
-    "comments": "Some text here",
-    "reviewer": 2,
-    "flagged": 0,
-    "reviewDate": "2018-09-04 19:20"
-  },
-  {
-    "questions": [
-      {
-        "question_id": 1,
-        "response": 1
-      },
-      {
-        "question_id": 2,
-        "response": 0
-      },
-      {
-        "question_id": 3,
-        "response": 2
-      }
-    ]
-  }
-]
-
-*/
+  // qa: any = {
+  //   date: "",
+  //   prid: 0,
+  //   description: "",
+  //   determinant: 0,
+  //   tic: {},
+  //   ticnine: "",
+  //   preceptor: {},
+  //   precnine: "",
+  //   noPrec: false,
+  //   comments: "",
+  //   flagged: "",
+  //   questions: [],
+  //   reviewer: 0,
+  //   reviewDate: ""
+  // };
 
 public togglePrec(){
   this.prec_disable = !this.prec_disable;
-  this.qa.preceptor = "";
-  this.qa.precnine = "";
+  this.qa.preceptor = null;
 }
 
   public sendQA(){
@@ -125,6 +91,9 @@ public togglePrec(){
       response => {
         this.qs = response;
         console.log(this.qs);
+        this.qa = new QA(this.qs);
+        console.log(this.qa);
+        this.formReady = true;
       });
   }
 

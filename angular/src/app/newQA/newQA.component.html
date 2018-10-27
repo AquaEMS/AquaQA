@@ -6,7 +6,7 @@
           <label for="date">Call date</label>
           <div class="input-group">
             <input class="form-control" placeholder="yyyy-mm-dd"
-              name="dp" [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker">
+              name="dp" [(ngModel)]="qa.date" ngbDatepicker #d="ngbDatepicker">
               <div class="input-group-append">
                 <button class="btn btn-secondary" (click)="d.toggle()" type="button"><i class="fas fa-calendar"></i></button>
               </div>
@@ -83,36 +83,47 @@
         </div>
       </div>
       <hr>
-      <div *ngFor="let cat of qs">
-        <h4>{{cat.name}}</h4>
-        <div class="row affirmative">
-          <div class="col-md-12">
-            <div class="row question" *ngFor="let q of cat.questions; index as i">
-              <div class="question-number offset-sm-1 col-sm-1 col-1">
-                {{i+1}}.
-              </div>
-              <div class="col-sm-6 col-7 question-text">
-                <div class="form-check form-check-inline">
-                  <label class="form-check-label">{{q.text}}</label>
-                </div>
-              </div>
-              <div class="col-sm-2 col-4 question-answer">
-                <div [ngSwitch]="q.displayNA" class="btn-group btn-group-toggle" ngbRadioGroup name="yn1" [(ngModel)]="qa.yn1">
-                  <label ngbButtonLabel class="btn-secondary">
-                    <input ngbButton type="radio" [value]="1"> Yes
-                  </label>
-                  <label ngbButtonLabel class="btn-secondary">
-                    <input ngbButton type="radio" [value]="0"> No
-                  </label>
-                  <label *ngSwitchCase="1" ngbButtonLabel class="btn-secondary">
-                    <input ngbButton type="radio" [value]="0"> N/A
-                  </label>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <div *ngIf="!formReady" class="cssload-preloader cssload-loading">
+	       <span class="cssload-slice"></span>
+	       <span class="cssload-slice"></span>
+	       <span class="cssload-slice"></span>
+	       <span class="cssload-slice"></span>
+         <span class="cssload-slice"></span>
+         <span class="cssload-slice"></span>
+       </div>
+       <div *ngIf="formReady">
+         <div *ngFor="let cat of qs">
+           <h4>{{cat.name}}</h4>
+           <div class="row affirmative">
+             <div class="col-md-12">
+               <div class="row question" *ngFor="let q of cat.questions; index as i">
+                 <div class="question-number offset-sm-1 col-sm-1 col-1">
+                   {{i+1}}.
+                 </div>
+                 <div class="col-sm-6 col-7 question-text">
+                   <div class="form-check form-check-inline">
+                     <label class="form-check-label">{{q.text}}</label>
+                   </div>
+                 </div>
+                 <div class="col-sm-2 col-4 question-answer">
+                   <div [ngSwitch]="q.displayNA" class="btn-group btn-group-toggle" ngbRadioGroup name="yn1" [(ngModel)]="qa.yn1">
+                     <label ngbButtonLabel class="btn-secondary">
+                       <input ngbButton type="radio" [value]="1"> Yes
+                     </label>
+                     <label ngbButtonLabel class="btn-secondary">
+                       <input ngbButton type="radio" [value]="0"> No
+                     </label>
+                     <label *ngSwitchCase="1" ngbButtonLabel class="btn-secondary">
+                       <input ngbButton type="radio" [value]="0"> N/A
+                     </label>
+                   </div>
+                 </div>
+               </div>
+             </div>
+           </div>
+         </div>
+       </div>
+
 
       <hr>
       <h4>Review</h4>

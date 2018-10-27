@@ -27,15 +27,15 @@ export class QA {
     this.reviewDate = null;
     this.questions = [];
     for (let cat of question_active ){
-      console.log(cat);
+      // console.log(cat);
       for (let q of cat.questions) {
-        console.log(q);
+        // console.log(q);
         let temp = {
           question_id: q.question_id,
           response: -1,
         }
         this.questions.push(temp);
-        console.log(this.questions);
+        // console.log(this.questions);
       }
     }
   }

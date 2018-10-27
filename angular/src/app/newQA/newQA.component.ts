@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { QA }    from './qa_class/qa.class';
+import { QA }    from './helpers/qa.class';
 import { apiService } from "../services/api.service";
 import { Http } from '@angular/http';
 // import 'rxjs/add/operator/map';
@@ -30,22 +30,20 @@ export class NewQAComponent implements OnInit {
 
   title = 'New QA';
   isActive = false;
-  // qa: any = {
-  //   date: "",
-  //   prid: 0,
-  //   description: "",
-  //   determinant: 0,
-  //   tic: {},
-  //   ticnine: "",
-  //   preceptor: {},
-  //   precnine: "",
-  //   noPrec: false,
-  //   comments: "",
-  //   flagged: "",
-  //   questions: [],
-  //   reviewer: 0,
-  //   reviewDate: ""
-  // };
+  qa: QA = {
+    date: null,
+    prid: null,
+    description: null,
+    determinant: 0,
+    tic: null,
+    preceptor: null,
+    noPreceptor: false,
+    comments: null,
+    flagged: false,
+    questions: [],
+    reviewer: 0,
+    reviewDate: null
+  };
 
 public togglePrec(){
   this.prec_disable = !this.prec_disable;

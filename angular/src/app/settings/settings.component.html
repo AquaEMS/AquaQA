@@ -16,9 +16,26 @@
     <div class="col-md-6">
       <div class="card">
         <div class="card-header">
-          Add User
+          Add or Edit User
         </div>
         <div class="card-body">
+          <h5 class="card-title">Edit</h5>
+          <p class="card-text">To edit a user, select one from here. Otherwise, leave this field blank.</p>
+          <div class="row">
+            <div class="form-group col-md-12">
+              <label for="typeahead-focus">User:</label>
+                <ng-select
+                  name="user_list"
+                  [items]="user_list"
+                  bindLabel="first_last"
+                  bindValue="user_id"
+                  [(ngModel)]="selected_user"
+                  (change)="onUserSelected($event)"
+                  placeholder="Pick a user to edit"
+                  >
+                </ng-select>
+            </div>
+          </div>
           <form name="qa_form" autocomplete="off" novalidate>
             <h5 class="card-title">User information</h5>
             <p class="card-text">Fill out for user personal information.</p>
@@ -130,7 +147,7 @@
     <!-- END OF ADD USER -->
     <!-- EDIT USER -->
 
-      <div class="col-md-6">
+      <!-- <div class="col-md-6">
         <div class="card">
           <div class="card-header">
             Edit User
@@ -262,7 +279,7 @@
             <button type="submit" class="btn btn-success btn-lg" (click)="addUser()" id="submit">Submit</button>
           </div>
         </div>
-      </div>
+      </div> -->
   </div>
 
 

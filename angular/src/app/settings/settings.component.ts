@@ -20,6 +20,7 @@ export class SettingsComponent implements OnInit {
   public user_list: Array<any> = [];
   public selected_user: any;
   public user_data: any;
+  public edit = false;
   public show_details: boolean = false;
 
   constructor(private api: apiService, private http: Http) { }
@@ -41,28 +42,52 @@ export class SettingsComponent implements OnInit {
 
   public addUser(){
     this.pass_mismatch = false;
-    if (this.user.password != this.user.pass_conf) {
+    if (this.user.password != this.user.pass_conf && this.user.pass_conf) {
       this.pass_mismatch = true;
     } else{
-      console.log(this.user);
-      this.api.createUser(this.user).subscribe(
-        response => {
-          console.log(response);
-          this.user_success = true;
-        }
-      );
+      if (!this.edit){
+        console.log(this.user);
+        this.api.createUser(this.user).subscribe(
+          response => {
+            console.log(response);
+            this.user_success = true;
+          }
+        );
+      } else{
+        // EDIT THE USER
+        console.log("Edit");
+      }
+
     }
 
   }
 
   public onUserSelected(event){
-    this.api.getUserData(this.selected_user).subscribe(
-      response => {
-        this.user_data = response;
-        console.log(this.user_data);
-        this.show_details = true;
+    if (event){
+      this.edit = true;
+      this.api.getUserData(this.selected_user).subscribe(
+        response => {
+          this.user = response[0];
+          console.log(this.user);
+          this.show_details = true;
+        }
+      )
+    } else{
+      this.edit = false;
+      this.user = {
+        first: "",
+        last: "",
+        ninehundred: "",
+        email: "",
+        username: "",
+        password: "",
+        pass_conf: "",
+        admin: "",
+        qa: "",
+        preceptor: ""
       }
-    )
+    }
+
   }
 
   ngOnInit() {

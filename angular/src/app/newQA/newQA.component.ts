@@ -6,6 +6,7 @@ import { Http } from '@angular/http';
 import {NgbTypeahead} from '@ng-bootstrap/ng-bootstrap';
 import {Observable, Subject, merge} from 'rxjs';
 import {debounceTime, distinctUntilChanged, filter, map} from 'rxjs/operators';
+import { CounterPipe } from './helpers/counter.pipe';
 
 
 @Component({
@@ -20,30 +21,44 @@ export class NewQAComponent implements OnInit {
   private preceptors: any;
   private qs: any;
   private ccs: any;
-  public qa: QA;
-  public prec_disable: boolean = false;
-  public formReady: boolean = false;
-
-  constructor(private api: apiService, private http: Http){};
-
-  // qa: QA;
-
-  title = 'New QA';
-  isActive = false;
-  qa: QA = {
-    date: null,
+  public qa: any = {
     prid: null,
+    date: null,
     description: null,
-    determinant: 0,
+    determinant: null,
     tic: null,
     preceptor: null,
     noPreceptor: false,
     comments: null,
     flagged: false,
-    questions: [],
-    reviewer: 0,
+    reviewer: null,
     reviewDate: null
   };
+
+  public prec_disable: boolean = false;
+  public formReady: boolean = false;
+
+  constructor(private api: apiService, private http: Http){
+     this.qa = {
+      prid: null,
+      date: null,
+      description: null,
+      determinant: null,
+      tic: null,
+      preceptor: null,
+      noPreceptor: false,
+      comments: null,
+      flagged: false,
+      reviewer: null,
+      reviewDate: null
+    };
+  };
+
+  // qa: QA;
+
+  title = 'New QA';
+  isActive = false;
+  // this.qa = new QA(this.getQs());
 
 public togglePrec(){
   this.prec_disable = !this.prec_disable;
@@ -64,12 +79,24 @@ public togglePrec(){
     this.isActive = true;
   }
 
+  public getQs(){
+    this.api.getQuestions().subscribe(response => {
+      console.log(response);
+      return response;
+    });
+  }
+
   ngOnInit(){
-    console.log("INIT")
     this.api.getDeterminants().subscribe(
       response => {
         this.determinants = response;
     });
+    this.api.getQuestions().subscribe(
+      response => {
+        this.qs = response;
+        console.log(this.qs);
+        this.formReady = true;
+      });
     this.api.getPreceptors().subscribe(
       response => {
         for (let item of response){
@@ -85,14 +112,6 @@ public togglePrec(){
         this.ccs = response;
       }
     )
-    this.api.getQuestions().subscribe(
-      response => {
-        this.qs = response;
-        console.log(this.qs);
-        this.qa = new QA(this.qs);
-        console.log(this.qa);
-        this.formReady = true;
-      });
   }
 
 }

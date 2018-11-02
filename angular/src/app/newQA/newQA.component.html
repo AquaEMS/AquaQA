@@ -92,31 +92,34 @@
          <span class="cssload-slice"></span>
        </div>
        <div *ngIf="formReady">
-         <div *ngFor="let cat of qs; index as c">
-           <h4>{{cat.name}}</h4>
-           <div class="row affirmative">
-             <div class="col-md-12">
-               <div class="row question" *ngFor="let q of cat.questions; index as i">
-                 <div class="question-number offset-sm-1 col-sm-1 col-1">
-                   {{i+1}}.
-                 </div>
-                 <div class="col-sm-6 col-7 question-text">
-                   <div class="form-check form-check-inline">
-                     <label class="form-check-label">{{q.text}}</label>
+         <div *ngFor="let counter of [qs | counterPipe]">
+           {{ counter.reset() }}
+           <div *ngFor="let cat of qs; index as c">
+             <h4>{{cat.name}}</h4>
+             <div class="row affirmative">
+               <div class="col-md-12">
+                 <div class="row question" *ngFor="let q of cat.questions; index as i">
+                   <div class="question-number offset-sm-1 col-sm-1 col-1">
+                     {{i+1}}.
                    </div>
-                 </div>
-                 <div class="col-sm-2 col-4 question-answer">
-                   {{(c * cat.questions.length) + i }}
-                   <div [ngSwitch]="q.displayNA" class="btn-group btn-group-toggle" ngbRadioGroup name="qa.questions_{{cat}}_{{i}}" [(ngModel)]="qa.questions[i].response">
-                     <label ngbButtonLabel class="btn-secondary">
-                       <input ngbButton type="radio" [value]="1"> Yes
-                     </label>
-                     <label ngbButtonLabel class="btn-secondary">
-                       <input ngbButton type="radio" [value]="0"> No
-                     </label>
-                     <label *ngSwitchCase="1" ngbButtonLabel class="btn-secondary">
-                       <input ngbButton type="radio" [value]="2"> N/A
-                     </label>
+                   <div class="col-sm-6 col-7 question-text">
+                     <div class="form-check form-check-inline">
+                       <label class="form-check-label">{{q.text}}</label>
+                     </div>
+                   </div>
+                   <div class="col-sm-2 col-4 question-answer">
+                     <!-- {{qa.questions[counter.inc()].question_id}} -->
+                     <div [ngSwitch]="q.displayNA" class="btn-group btn-group-toggle" ngbRadioGroup name="qa.questions_{{cat}}_{{i}}">
+                       <label ngbButtonLabel class="btn-secondary">
+                         <input ngbButton type="radio" [value]="1"> Yes
+                       </label>
+                       <label ngbButtonLabel class="btn-secondary">
+                         <input ngbButton type="radio" [value]="0"> No
+                       </label>
+                       <label *ngSwitchCase="1" ngbButtonLabel class="btn-secondary">
+                         <input ngbButton type="radio" [value]="2"> N/A
+                       </label>
+                     </div>
                    </div>
                  </div>
                </div>

@@ -23,6 +23,8 @@ import { apiService } from './services/api.service';
 import { SettingsComponent } from './settings/settings.component';
 import { HomeComponent } from './home/home.component';
 import { AppRoutingModule } from './app-routing/app-routing.module';
+import { CounterPipe } from './newQA/helpers/counter.pipe';
+
 
 
 @NgModule({
@@ -32,7 +34,8 @@ import { AppRoutingModule } from './app-routing/app-routing.module';
     HeaderComponent,
     FooterComponent,
     SettingsComponent,
-    HomeComponent
+    HomeComponent,
+    CounterPipe
   ],
   imports: [
     BrowserModule,

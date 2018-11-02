@@ -62,6 +62,10 @@ export class apiService {
     return this.http.get(request).map(this.extractData);
   }
 
+  public getUserData(id): Observable<any[]> {
+    let request = this.apiURL + 'get/user/' + id + '/' + this.token;
+    return this.http.get(request).map(this.extractData);
+  }
   public getTics(): Observable<any[]> {
     let request = this.apiURL + 'get/tics/' + this.token;
     return this.http.get(request).map(this.extractData);

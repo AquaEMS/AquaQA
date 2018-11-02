@@ -17,6 +17,10 @@ export class SettingsComponent implements OnInit {
   public pass_mismatch = false;
   public user_success = false;
   public user_error = false;
+  public user_list: Array<any> = [];
+  public selected_user: any;
+  public user_data: any;
+  public show_details: boolean = false;
 
   constructor(private api: apiService, private http: Http) { }
 
@@ -51,7 +55,25 @@ export class SettingsComponent implements OnInit {
 
   }
 
+  public onUserSelected(event){
+    this.api.getUserData(this.selected_user).subscribe(
+      response => {
+        this.user_data = response;
+        console.log(this.user_data);
+        this.show_details = true;
+      }
+    )
+  }
+
   ngOnInit() {
+    this.api.getUsers().subscribe(
+      response => {
+        for (let item of response){
+          item.first_last = item.last + ", " + item.first + " | " + item.ninehundred;
+        }
+        this.user_list = response;
+      }
+    )
   }
 
 }

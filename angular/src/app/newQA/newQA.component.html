@@ -77,7 +77,7 @@
           <label for="preceptor900number">&nbsp;</label>
           <div class="btn-group btn-group-toggle" ngbRadioGroup >
             <label ngbButtonLabel class="btn-secondary">
-              <input (click)="togglePrec()" name="noPrec" [(ngModel)]="qa.noPrec" ngbButton type="checkbox" [value]="1"> No Preceptor
+              <input (click)="togglePrec()" name="noPrec" [(ngModel)]="qa.noPreceptor" ngbButton type="checkbox" [value]="1"> No Preceptor
             </label>
           </div>
         </div>
@@ -111,7 +111,7 @@
                      <!-- {{qa.questions[counter.inc()].question_id}} -->
                      <!-- qs_uncat[index] -->
                      <!-- {{uncat_qs[0].question_id}} -->
-                     <div [ngSwitch]="q.displayNA" class="btn-group btn-group-toggle" ngbRadioGroup name="qa.questions_{{cat}}_{{i}}" [(ngModel)]="uncat_qs[q.number]">
+                     <div [ngSwitch]="q.displayNA" class="btn-group btn-group-toggle" ngbRadioGroup name="qa.questions_{{cat}}_{{i}}" [(ngModel)]="uncat_qs[q.number].response">
                        <label ngbButtonLabel class="btn-secondary">
                          <input ngbButton type="radio" [value]="1"> Yes
                        </label>

@@ -24,7 +24,6 @@ export class NewQAComponent implements OnInit {
   public qa: any = {
     prid: null,
     date: null,
-    description: null,
     determinant: null,
     tic: null,
     preceptor: null,
@@ -69,7 +68,7 @@ public togglePrec(){
   public sendQA(){
     console.log(this.qa);
     console.log(this.uncat_qs);
-    this.api.createQA(this.qa).subscribe(
+    this.api.createQA(this.qa, this.uncat_qs).subscribe(
       response => {
         console.log(response);
       }

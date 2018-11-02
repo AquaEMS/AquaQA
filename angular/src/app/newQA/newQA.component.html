@@ -109,7 +109,9 @@
                    </div>
                    <div class="col-sm-2 col-4 question-answer">
                      <!-- {{qa.questions[counter.inc()].question_id}} -->
-                     <div [ngSwitch]="q.displayNA" class="btn-group btn-group-toggle" ngbRadioGroup name="qa.questions_{{cat}}_{{i}}">
+                     <!-- qs_uncat[index] -->
+                     <!-- {{uncat_qs[0].question_id}} -->
+                     <div [ngSwitch]="q.displayNA" class="btn-group btn-group-toggle" ngbRadioGroup name="qa.questions_{{cat}}_{{i}}" [(ngModel)]="uncat_qs[q.number]">
                        <label ngbButtonLabel class="btn-secondary">
                          <input ngbButton type="radio" [value]="1"> Yes
                        </label>

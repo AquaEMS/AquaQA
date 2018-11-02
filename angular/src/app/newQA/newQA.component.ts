@@ -37,6 +37,7 @@ export class NewQAComponent implements OnInit {
 
   public prec_disable: boolean = false;
   public formReady: boolean = false;
+  public uncat_qs: Array<any> = [];
 
   constructor(private api: apiService, private http: Http){
      this.qa = {
@@ -67,6 +68,7 @@ public togglePrec(){
 
   public sendQA(){
     console.log(this.qa);
+    console.log(this.uncat_qs);
     this.api.createQA(this.qa).subscribe(
       response => {
         console.log(response);
@@ -94,6 +96,23 @@ public togglePrec(){
     this.api.getQuestions().subscribe(
       response => {
         this.qs = response;
+        // console.log(this.qs);
+        let counter = 0;
+        for (let cat of this.qs ){
+          // console.log(cat);
+          for (let q of cat.questions) {
+            q.number = counter;
+            counter++;
+            // console.log(q);
+            let temp = {
+              question_id: q.question_id,
+              response: -1,
+            }
+            this.uncat_qs.push(temp);
+            // console.log(this.questions);
+          }
+        }
+        console.log(this.uncat_qs);
         console.log(this.qs);
         this.formReady = true;
       });

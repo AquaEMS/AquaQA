@@ -71,10 +71,18 @@ export class apiService {
     return this.http.get(request).map(this.extractData);
   }
 
+  private pad(num:number, size:number): string {
+    let s = num+"";
+    while (s.length < size) s = "0" + s;
+    return s;
+  }
+
   public createQA(data, questions): Observable<any[]> {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
     data.questions = questions;
+    data.date = data.date.year + "-" + this.pad(data.date.month, 2) + "-" + this.pad(data.date.day,2);
+    delete data.noPreceptor;
     console.log(data);
     return this.http.post(this.apiURL + '/new/qa', data, options)
       .map(this.extractData)

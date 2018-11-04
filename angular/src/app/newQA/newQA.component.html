@@ -18,7 +18,7 @@
         </div>
         <div class="form-group col-md-4">
           <label for="presenting_problem">Presenting problem</label>
-          <input type="text" name="presenting_problem" [(ngModel)]="qa.problem" name="qaProblem" class="form-control" id="presenting_problem" placeholder="Presenting problem" data-validation="required">
+          <input type="text" name="presenting_problem" [(ngModel)]="qa.description" name="qaProblem" class="form-control" id="presenting_problem" placeholder="Presenting problem" data-validation="required">
         </div>
         <div class="form-group col-md-3 text-center">
           <label>&nbsp;</label>
@@ -57,6 +57,7 @@
             name="qa_prec"
             [items]="preceptors"
             bindLabel="first_last"
+            bindValue="user_id"
             [(ngModel)]="qa.preceptor"
             [disabled]="prec_disable"
             >

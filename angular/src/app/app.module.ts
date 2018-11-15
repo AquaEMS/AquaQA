@@ -5,6 +5,9 @@ import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
+
 
 // PACKAGES (THINGS OTHER PEOPLE)
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
@@ -24,6 +27,9 @@ import { SettingsComponent } from './settings/settings.component';
 import { HomeComponent } from './home/home.component';
 import { AppRoutingModule } from './app-routing/app-routing.module';
 import { CounterPipe } from './newQA/helpers/counter.pipe';
+import { LoginComponent } from './login/login.component';
+import { AuthService } from './auth/auth.service';
+import { AuthGuard } from './auth/auth.guard';
 
 
 
@@ -35,7 +41,8 @@ import { CounterPipe } from './newQA/helpers/counter.pipe';
     FooterComponent,
     SettingsComponent,
     HomeComponent,
-    CounterPipe
+    CounterPipe,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -45,9 +52,10 @@ import { CounterPipe } from './newQA/helpers/counter.pipe';
     HttpModule,
     BrowserAnimationsModule,
     UiSwitchModule,
-    NgSelectModule
+    NgSelectModule,
+    ReactiveFormsModule
   ],
-  providers: [apiService],
+  providers: [apiService, AuthService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

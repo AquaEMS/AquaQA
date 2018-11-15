@@ -1,4 +1,4 @@
-<div class="head">
+<div class="head" *ngIf="isLoggedIn$ | async as isLoggedIn">
   <div class="container-fluid masthead">
   <div class="row">
     <div class="col-md-12 head">
@@ -12,6 +12,7 @@
     <a class="nav-item nav-link" routerLink="/home" routerLinkActive="active">Home</a>
     <a class="nav-item nav-link" routerLink="/new-qa" routerLinkActive="active">New QA</a>
     <a class="nav-item nav-link" routerLink="/settings" routerLinkActive="active">Settings</a>
+    <a class="nav-item nav-link" (click)="onLogout()" *ngIf="isLoggedIn">Logout</a>
     <!-- <label>Light</label><ui-switch></ui-switch><label>Dark</label> -->
   </nav>
 </div>

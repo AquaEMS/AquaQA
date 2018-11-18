@@ -2,6 +2,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
@@ -28,9 +29,13 @@ import { HomeComponent } from './home/home.component';
 import { AppRoutingModule } from './app-routing/app-routing.module';
 import { CounterPipe } from './newQA/helpers/counter.pipe';
 import { LoginComponent } from './login/login.component';
-import { AuthService } from './auth/auth.service';
+import { AuthenticationService } from './auth/auth.service';
 import { AuthGuard } from './auth/auth.guard';
-
+import { AlertComponent } from './alert/alert.component';
+import { UserService } from './services/user.service';
+import { JwtInterceptor } from './services/jwt.interceptor';
+import { ErrorInterceptor } from './services/error.interceptor';
+import { AlertService } from './services/alert.service';
 
 
 @NgModule({
@@ -42,7 +47,8 @@ import { AuthGuard } from './auth/auth.guard';
     SettingsComponent,
     HomeComponent,
     CounterPipe,
-    LoginComponent
+    LoginComponent,
+    AlertComponent
   ],
   imports: [
     BrowserModule,
@@ -53,9 +59,18 @@ import { AuthGuard } from './auth/auth.guard';
     BrowserAnimationsModule,
     UiSwitchModule,
     NgSelectModule,
-    ReactiveFormsModule
-  ],
-  providers: [apiService, AuthService, AuthGuard],
+    ReactiveFormsModule,
+    HttpClientModule
+    ],
+  providers: [
+        apiService,
+        AuthenticationService,
+        AuthGuard,
+        AlertService,
+        UserService,
+        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+      ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

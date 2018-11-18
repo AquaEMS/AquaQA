@@ -1,29 +1,26 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
-import { User } from './user';
+import { HttpClient } from '@angular/common/http';
+import { map } from 'rxjs/operators';
 
 @Injectable()
-export class AuthService {
-  private loggedIn = new BehaviorSubject<boolean>(false); // {1}
+export class AuthenticationService {
+    constructor(private http: HttpClient) { }
 
-  get isLoggedIn() {
-    return this.loggedIn.asObservable(); // {2}
-  }
+    login(username: string, password: string) {
+        return this.http.post<any>(`${config.apiUrl}/users/authenticate`, { username: username, password: password })
+            .pipe(map(user => {
+                // login successful if there's a jwt token in the response
+                if (user && user.token) {
+                    // store user details and jwt token in local storage to keep user logged in between page refreshes
+                    localStorage.setItem('currentUser', JSON.stringify(user));
+                }
 
-  constructor(
-    private router: Router
-  ) {}
-
-  login(user: User){
-    if (user.userName !== '' && user.password !== '' ) { // {3}
-      this.loggedIn.next(true);
-      this.router.navigate(['/']);
+                return user;
+            }));
     }
-  }
 
-  logout() {                            // {4}
-    this.loggedIn.next(false);
-    this.router.navigate(['/login']);
-  }
+    logout() {
+        // remove user from local storage to log user out
+        localStorage.removeItem('currentUser');
+    }
 }

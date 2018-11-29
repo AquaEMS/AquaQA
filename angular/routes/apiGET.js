@@ -9,7 +9,7 @@ const jsonParser = bodyParser.json();
 
 
 router.get("/get/tics/:token", function(req, res) {
-  if (!dev && !(isAdmin(req.params.token) || isQa(req.params.token))) {
+  if (!(isAdmin(req.params.token) || isQa(req.params.token))) {
     res.status(403).send();
   } else {
     c.query("SELECT user_id, first, last, ninehundred FROM users WHERE active = 1 ORDER BY ninehundred", function(error, results, fields) {
@@ -25,7 +25,7 @@ router.get("/get/tics/:token", function(req, res) {
 
 router.get("/get/preceptors/:token", function(req, res) {
   // if user isn't an admin or a qa person
-  if (!dev && !(isAdmin(req.params.token) || isQa(req.params.token))) {
+  if (!(isAdmin(req.params.token) || isQa(req.params.token))) {
     res.status(403).send();
   } else {
     c.query("SELECT user_id, first, last, ninehundred FROM users WHERE preceptor = 1 AND active = 1 ORDER BY ninehundred", function(error, results, fields) {
@@ -41,7 +41,7 @@ router.get("/get/preceptors/:token", function(req, res) {
 
 router.get("/get/admins/:token", function(req, res) {
   //if user isn't an admin
-  if (!dev && !isAdmin(req.params.token)) {
+  if (!isAdmin(req.params.token)) {
     res.status(403).send();
   } else {
     c.query("SELECT user_id, first, last FROM users WHERE admin = 1 ORDER BY last, first", function(error, results, fields) {
@@ -57,7 +57,7 @@ router.get("/get/admins/:token", function(req, res) {
 
 router.get("/get/users/:token", function(req, res) {
   //if user isn't an admin
-  if (!dev && !isAdmin(req.params.token)) {
+  if (!isAdmin(req.params.token)) {
     res.status(403).send();
   } else {
     c.query("SELECT user_id, ninehundred, first, last FROM users ORDER BY ninehundred", function(error, results, fields) {
@@ -75,7 +75,7 @@ router.get("/get/me/:token", function(req, res) {
   let userId = getUserId(req.params.token);
 
   //if user not logged in
-  if (!dev && userId != -1) {
+  if (userId != -1) {
     res.status(403).send();
   } else {
     c.query("SELECT * FROM users WHERE user_id = ?", userId, function(error, results, fields) {
@@ -91,7 +91,7 @@ router.get("/get/me/:token", function(req, res) {
 
 router.get("/get/user/:user_id/:token", function(req, res) {
   //if user isn't an admin or requesting info about themselves
-  if (!dev && !(isAdmin(req.params.token) || getUserId(req.params.token) == req.params.user_id)) {
+  if (!(isAdmin(req.params.token) || getUserId(req.params.token) == req.params.user_id)) {
     res.status(403).send();
   } else {
     c.query("SELECT * FROM users WHERE user_id = ?", [req.params.user_id], function(error, results, fields) {
@@ -109,7 +109,7 @@ router.get("/get/qas/:token", function(req, res) {
   let userId = getUserId(req.cookies.AQEMS_SESSION);
 
   //if user not logged in
-  if (!dev && userId != -1) {
+  if (userId != -1) {
     res.status(403).send();
 
     //if user isn't an admin or a qa person

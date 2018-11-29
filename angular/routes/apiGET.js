@@ -7,8 +7,6 @@ const router = express.Router();
 const jsonParser = bodyParser.json();
 
 
-//test
-
 
 router.get("/get/tics/:token", function(req, res) {
   if (!dev && !(isAdmin(req.params.token) || isQa(req.params.token))) {

@@ -1,45 +1,10 @@
-var express = require('express');
-var mysql = require('mysql');
-var bodyParser = require('body-parser');
-var cron = require('node-cron');
-var Promise = require('promise');
+const express = require('express');
+const mysql = require('mysql');
+const bodyParser = require('body-parser');
+require('apiFunctions.js')();
 
-const config = require('./server_conf');
-
-var router = express.Router();
-var jsonParser = bodyParser.json();
-
-
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.send('Express RESTful API');
-});
-
-
-var c = mysql.createConnection({
-  socket: config.db_socket,
-  user: config.db_user,
-  password: config.db_password,
-  database: config.db_database
-});
-
-c.connect(function(err) {
-  if (err) {
-    console.error("error connecting: " + err.stack);
-    return;
-  }
-
-  console.log("MariaDB connected as id " + c.threadId);
-});
-
-
-// TODO: the following function should almost certainly not be in this file
-cron.schedule("* 18 * * *", function() {
-  getDailySummary(function(data) {
-    // TODO: write this function to generate and send an email to the captain
-  });
-});
-
+const router = express.Router();
+const jsonParser = bodyParser.json();
 
 
 
@@ -215,51 +180,3 @@ router.get('/get/questions', async (req, res) => {
     res.status(400).send(errorResponse("/get/questions", 400));
   }
 });
-
-
-
-router.post("/new/user", function(req, res) {
-  console.log(req.body);
-  c.query("INSERT INTO `users` SET ?", req.body, function(error, results, fields) {
-    if (error) res.status(400).send(errorResponse("new/user", 400)); // TODO: add session check
-    else {res.status(200).send();}
-  });
-})
-
-router.post("/new/question", function(req, res) {
-  c.query("INSERT INTO `questions` SET ?", req.body[0], function(error, results, fields) {
-    if (error) res.status(400).send(errorResponse("new/question", 400)); // TODO: add session check
-  });
-})
-
-router.post("/new/category", function(req, res) {
-  c.query("INSERT INTO `category` SET ?", req.body[0], function(error, results, fields) {
-    if (error) res.status(400).send(errorResponse("new/category", 400)); // TODO: add session check
-  });
-})
-
-router.post('/new/qa', jsonParser, function(req, res) {
-  var questions = req.body.questions;
-  console.log("Questions:");
-  console.log(questions);
-  delete req.body.questions;
-  console.log("No questions:");
-  console.log(req.body);
-  c.query("INSERT INTO `qas` SET ?", req.body, function(error, results, fields) {
-    if (error) console.log(error);
-     // res.status(400).send(errorResponse("new/qa", 400)); // TODO: add session check
-    for (var x = 0; x < questions.length; x++) {
-      questions[x].qa_id = results.insertId;
-      c.query("INSERT INTO `qasQuestions` SET ?", questions, function(error, results, fields) {
-        if (error) res.status(400).send(errorResponse("new/qa", 400)); // TODO: add session check
-      });
-    }
-    res.status(200).send(); // TODO: send confirmation
-  });
-});
-
-apiExports = {};
-apiExports.router = router;
-apiExports.dbconn = c;
-
-module.exports = apiExports;

@@ -53,7 +53,7 @@ const getUserIdFromSession = function(session_id) {
 //   });
 // }
 
-const get_data = async function(query, params) {
+const getData = async function(query, params) {
   try {
     return new Promise(resolve => {
       c.query(query, params, (error, results, fields) => {
